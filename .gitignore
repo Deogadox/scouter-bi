@@ -27,3 +27,6 @@ powerbi/html/dist/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Testes
+.pytest_cache/

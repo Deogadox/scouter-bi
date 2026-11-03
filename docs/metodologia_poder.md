@@ -16,7 +16,7 @@ Por isso o projeto mantém uma **curadoria própria** em `data/curadoria/`, e o 
 | `guia_oficial` | Número de guia oficial (Daizenshuu 7) | Era do scouter, até a Saga Freeza |
 | `estimado` | Estimativa deste projeto, pela regra abaixo | Da Saga Trunks em diante |
 
-> Os valores `guia_oficial` foram transcritos de memória e **precisam ser conferidos** antes da publicação.
+> Os valores `guia_oficial` estão em revisão contra a fonte original.
 
 ## Regra das estimativas
 
