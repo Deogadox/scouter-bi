@@ -1,0 +1,25 @@
+# Segredos
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Dados crus da API (regeráveis)
+data/raw/*
+!data/raw/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Power BI
+*.pbix.bak
+powerbi/**/.pbi/localSettings.json
+powerbi/**/.pbi/cache.abf
+
+# Sistema
+.DS_Store
+Thumbs.db
+.vscode/
