@@ -1,6 +1,8 @@
 # Scouter BI — Dragon Ball Z no Power BI
 
-Relatório Power BI jogável sobre o universo Dragon Ball Z, sustentado por um pipeline de dados próprio:
+Relatório Power BI jogável sobre o universo Dragon Ball Z, sustentado por um pipeline de dados próprio.
+
+**▶ [Abrir o relatório](https://app.powerbi.com/view?r=eyJrIjoiNmE0NDU4MzctZTM2OS00NWUzLThmMWMtZDBiYzM0ZTc3YmNiIiwidCI6IjExZGJiZmUyLTg5YjgtNDU0OS1iZTEwLWNlYzM2NGU1OTU1MSIsImMiOjR9)** (Publicar na web, funciona no celular)
 
 ```
 Dragon Ball API ─► Python (extração) ─► SQL Server (stg → dw) ─► Power BI (modelo estrela + DAX) ─► 6 páginas HTML jogáveis
