@@ -47,6 +47,11 @@ sqlcmd -S localhost -E -i sql\00_create_database.sql
 
 # 4. Conferir a API
 python src\check_api.py
+
+# 5. Fase 1: tabelas de staging + extração
+sqlcmd -S localhost -E -C -i sql\01_stg_tables.sql
+python -m pytest -q
+python -m src.extract
 ```
 
 ## Fonte dos dados

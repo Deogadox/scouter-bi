@@ -1,4 +1,4 @@
-# Scouter BI — setup_fase0.ps1
+﻿# Scouter BI — setup_fase0.ps1
 # Executa a Fase 0 na sua máquina (Windows + PowerShell).
 # Uso, na pasta do projeto:  powershell -ExecutionPolicy Bypass -File scripts\setup_fase0.ps1
 
