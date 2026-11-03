@@ -19,6 +19,10 @@ logs/
 powerbi/**/.pbi/localSettings.json
 powerbi/**/.pbi/cache.abf
 
+# Build das páginas HTML (gerado a partir de powerbi/html)
+node_modules/
+powerbi/html/dist/
+
 # Sistema
 .DS_Store
 Thumbs.db

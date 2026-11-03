@@ -1,0 +1,307 @@
+<style>
+#lista { left: 16px; top: 60px; width: 300px; height: 644px; display: flex; flex-direction: column; }
+#lista .ctl { padding: 0 14px 10px; display: flex; flex-direction: column; gap: 9px; }
+#grade { flex: 1; padding: 2px 10px 14px 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-content: start; }
+.tile { position: relative; height: 112px; border-radius: 13px; overflow: hidden; cursor: pointer;
+  background: linear-gradient(180deg, rgba(32, 44, 78, .92), rgba(13, 19, 36, .96)); border: 1px solid var(--line);
+  transition: transform .15s, border-color .15s, box-shadow .15s; }
+.tile:hover { transform: translateY(-2px); border-color: var(--line2); }
+.tile.on { border-color: var(--or); box-shadow: 0 0 0 1px var(--or), 0 8px 22px rgba(255, 138, 0, .28); }
+.tile .glow { position: absolute; left: 50%; top: 42%; width: 74px; height: 74px; transform: translate(-50%, -50%); border-radius: 50%; filter: blur(16px); opacity: .32; }
+.tile .ret { position: absolute; left: 0; right: 0; top: 6px; bottom: 22px; align-items: flex-start; }
+.tile .ret img, .tile .ret svg { height: 230%; }
+.tile .nm { position: absolute; left: 4px; right: 4px; bottom: 6px; text-align: center; font-size: 10.5px; font-weight: 800; color: #e3e9f6;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px #000; }
+.tile .fx { position: absolute; left: 0; right: 0; bottom: 0; height: 34px; background: linear-gradient(0deg, rgba(8, 12, 24, .95), transparent); }
+
+#hero { left: 328px; top: 60px; width: 524px; height: 644px; }
+#hero .bg { position: absolute; inset: 0; opacity: .5; background: radial-gradient(360px 300px at 50% 46%, var(--aura, #7fb2ff), transparent 70%); transition: background .5s; filter: saturate(1.2); }
+#hero .bg2 { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 14, 28, .55), rgba(10, 14, 28, .1) 30%, rgba(10, 14, 28, .78) 72%); }
+#hero .idn { position: absolute; left: 20px; top: 16px; font-size: 22px; color: rgba(255, 255, 255, .22); }
+#hero .orig { position: absolute; right: 18px; top: 16px; }
+#hero .nome { position: absolute; left: 0; right: 0; top: 30px; text-align: center; font-size: 56px; line-height: 1; color: #fff;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, .45), 0 0 26px var(--aura, #7fb2ff); }
+#hero .pills { position: absolute; left: 0; right: 0; top: 92px; display: flex; justify-content: center; gap: 7px; }
+#palco { position: absolute; left: 0; right: 0; top: 118px; height: 300px; }
+#palco .halo { position: absolute; left: 50%; top: 52%; width: 290px; height: 290px; margin: -145px 0 0 -145px; border-radius: 50%;
+  background: radial-gradient(circle, var(--aura, #7fb2ff) 0%, transparent 66%); opacity: .55; animation: pulse 2.2s ease-in-out infinite; filter: blur(4px); }
+#palco .anel { position: absolute; left: 50%; top: 52%; width: 270px; height: 270px; margin: -135px 0 0 -135px; border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, .22); animation: spin 26s linear infinite; }
+#palco .chao { position: absolute; left: 50%; bottom: 2px; width: 230px; height: 26px; margin-left: -115px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, .55), transparent); }
+#palco .ret { position: absolute; left: 0; right: 0; top: 6px; bottom: 8px; }
+#palco .ret img, #palco .ret svg { height: 100%; animation: fadeUp .45s ease both; }
+
+/* lente do scouter */
+#scouter { position: absolute; right: 18px; top: 128px; width: 168px; padding: 10px 12px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(10, 48, 30, .82), rgba(4, 26, 16, .9)); border: 1px solid rgba(57, 255, 136, .35);
+  box-shadow: 0 0 24px rgba(57, 255, 136, .18), inset 0 0 18px rgba(57, 255, 136, .12); color: var(--gr); z-index: 3; }
+#scouter .l1 { font: 700 9px/1 Rajdhani, sans-serif; letter-spacing: .28em; opacity: .85; display: flex; justify-content: space-between; }
+#scouter .l1 i { width: 7px; height: 7px; border-radius: 50%; background: var(--gr); box-shadow: 0 0 8px var(--gr); animation: flick 1.2s infinite; }
+#scouter .val { font-size: 30px; line-height: 1.05; margin-top: 4px; text-shadow: 0 0 12px rgba(57, 255, 136, .6); white-space: nowrap; }
+#scouter .full { font: 600 10.5px/1.2 Rajdhani, sans-serif; opacity: .8; letter-spacing: .04em; }
+#scouter .bar { height: 5px; border-radius: 4px; background: rgba(57, 255, 136, .15); margin-top: 7px; overflow: hidden; }
+#scouter .bar b { display: block; height: 100%; width: 0; background: var(--gr); box-shadow: 0 0 10px var(--gr); transition: width 1s cubic-bezier(.2, .8, .2, 1); }
+#scouter.boom { animation: shake .5s; border-color: rgba(255, 77, 94, .7); }
+#scouter .crack { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+#scouter.boom .crack { opacity: 1; }
+#aviso { position: absolute; right: 22px; top: 230px; z-index: 4; padding: 6px 10px; border-radius: 9px; font: 900 11px/1 Inter, 'Segoe UI', sans-serif; letter-spacing: .06em;
+  background: var(--rd); color: #fff; box-shadow: 0 6px 18px rgba(255, 77, 94, .45); transform: rotate(-4deg); display: none; }
+#aviso.on { display: block; animation: pop .45s ease both; }
+
+#hero .lbl { font-size: 9.5px; font-weight: 800; letter-spacing: .2em; color: var(--sub); text-transform: uppercase; }
+#sagasRow { position: absolute; left: 18px; right: 18px; top: 426px; }
+#sagasRow .chips, #formasRow .chips { flex-wrap: nowrap; overflow-x: auto; padding: 7px 0 4px; }
+#sagasRow .chips::-webkit-scrollbar, #formasRow .chips::-webkit-scrollbar { height: 0; }
+.chip { flex: 0 0 auto; }
+.chip.forma.on { background: var(--aura, var(--or)); border-color: var(--aura, var(--or)); }
+#formasRow { position: absolute; left: 18px; right: 18px; top: 482px; }
+#stats { position: absolute; left: 18px; right: 18px; bottom: 14px; display: grid; grid-template-columns: 1.25fr 1fr 1.25fr; gap: 10px; }
+.stat { padding: 10px 12px; border-radius: 13px; background: rgba(5, 9, 20, .55); border: 1px solid var(--line); min-height: 64px; }
+.stat .k { font-size: 9px; font-weight: 800; letter-spacing: .18em; color: var(--mut); text-transform: uppercase; }
+.stat .v { font-size: 24px; color: #fff; margin-top: 3px; white-space: nowrap; }
+.stat .o { font-size: 10px; color: var(--sub); margin-top: 3px; line-height: 1.25; max-height: 26px; overflow: hidden; }
+
+#evo { left: 864px; top: 60px; width: 400px; height: 222px; }
+#evoSvg { position: absolute; left: 10px; top: 40px; }
+#formas { left: 864px; top: 294px; width: 400px; height: 196px; }
+#listaFormas { padding: 0 14px; }
+.fr { display: grid; grid-template-columns: 9px 112px 1fr 70px 42px; align-items: center; gap: 8px; height: 27px; border-radius: 8px; padding: 0 6px; cursor: pointer; }
+.fr:hover { background: rgba(148, 163, 209, .07); }
+.fr.on { background: rgba(255, 138, 0, .12); }
+.fr .d { width: 8px; height: 8px; border-radius: 50%; }
+.fr .n { font-size: 11.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fr .b { height: 7px; border-radius: 6px; background: rgba(148, 163, 209, .1); overflow: hidden; }
+.fr .b i { display: block; height: 100%; border-radius: 6px; transition: width .6s cubic-bezier(.2, .8, .2, 1); }
+.fr .v { font-size: 14px; text-align: right; }
+.fr .m { font-size: 11px; color: var(--or2); text-align: right; font-weight: 800; }
+#catalogo { position: absolute; left: 14px; right: 14px; bottom: 10px; display: flex; align-items: center; gap: 8px; }
+#catalogo .t { width: 40px; height: 40px; border-radius: 10px; background: rgba(5, 9, 20, .6); border: 1px solid var(--line); overflow: hidden; position: relative; }
+#catalogo .t .ret { position: absolute; inset: 2px; align-items: flex-start; }
+#catalogo .t img { height: 260%; }
+
+#lutas { left: 864px; top: 502px; width: 400px; height: 202px; display: flex; flex-direction: column; }
+#listaLutas { flex: 1; padding: 0 10px 10px 14px; }
+.lr { display: grid; grid-template-columns: 22px 30px 1fr auto; align-items: center; gap: 9px; height: 38px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.lr:hover { background: rgba(148, 163, 209, .05); }
+.lr .r { width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; font-size: 10px; font-weight: 900; }
+.lr .r.V { background: rgba(57, 255, 136, .15); color: var(--gr); }
+.lr .r.D { background: rgba(255, 77, 94, .15); color: var(--rd); }
+.lr .r.E { background: rgba(154, 166, 196, .15); color: var(--sub); }
+.lr .av { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: rgba(5, 9, 20, .7); border: 1px solid var(--line2); position: relative; }
+.lr .av .ret { position: absolute; inset: 0; align-items: flex-start; }
+.lr .av img, .lr .av svg { height: 300%; }
+.lr .t1 { font-size: 11.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lr .t2 { font-size: 10px; color: var(--mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lr .zb { font-size: 9px; font-weight: 900; color: #1a1205; background: var(--or2); padding: 2px 6px; border-radius: 5px; margin-left: 6px; }
+.lr .sg { font-size: 10px; color: var(--sub); font-weight: 700; }
+.vazio { padding: 18px; color: var(--mut); font-size: 12px; text-align: center; }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card" id="lista">
+    <div class="hd"><h3><span class="dot"></span>Guerreiros</h3><span class="aux" id="qtd"></span></div>
+    <div class="ctl">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="busca" placeholder="Buscar guerreiro..." autocomplete="off"></div>
+      <div class="chips" id="filtros"><button class="chip on" data-f="todos">Todos</button><button class="chip" data-f="herois">Guerreiros Z</button><button class="chip" data-f="viloes">Vilões</button></div>
+    </div>
+    <div class="scroll" id="grade"></div>
+  </div>
+
+  <div class="card" id="hero">
+    <div class="bg"></div><div class="bg2"></div>
+    <div class="idn num" id="idn"></div>
+    <div class="orig" id="orig"></div>
+    <div class="nome tit" id="nome"></div>
+    <div class="pills" id="pills"></div>
+    <div id="palco"><div class="halo"></div><div class="anel"></div><div class="chao"></div><div class="ret" id="ret"></div></div>
+    <div id="scouter"><div class="l1"><span>SCOUTER · LEITURA</span><i></i></div><div class="val num" id="leitura">0</div><div class="full" id="leituraFull"></div><div class="bar"><b id="leituraBar"></b></div>
+      <svg class="crack" viewBox="0 0 168 100" preserveAspectRatio="none"><path d="M20 8 48 40 36 52 70 70 62 92M48 40 90 30 120 46 150 20M70 70 110 64 140 88" stroke="rgba(255,255,255,.75)" stroke-width="1.6" fill="none"/></svg></div>
+    <div id="aviso"></div>
+    <div id="sagasRow"><div class="lbl">Saga</div><div class="chips" id="sagas"></div></div>
+    <div id="formasRow"><div class="lbl">Forma</div><div class="chips" id="formasChips"></div></div>
+    <div id="stats">
+      <div class="stat"><div class="k">Nível de poder</div><div class="v num" id="sPoder"></div><div class="o" id="sPoderO"></div></div>
+      <div class="stat"><div class="k">Multiplicador</div><div class="v num" id="sMult"></div><div class="o" id="sMultO"></div></div>
+      <div class="stat"><div class="k">Origem do número</div><div class="v" id="sFonte" style="font-size:13px;margin-top:7px"></div><div class="o" id="sFonteO"></div></div>
+    </div>
+  </div>
+
+  <div class="card" id="evo"><div class="hd"><h3><span class="dot"></span>Evolução do poder</h3><span class="aux">pico por saga · escala log</span></div><svg id="evoSvg" width="380" height="172"></svg></div>
+  <div class="card" id="formas"><div class="hd"><h3><span class="dot"></span>Formas na saga</h3><span class="aux" id="formasAux"></span></div><div id="listaFormas"></div><div id="catalogo"></div></div>
+  <div class="card" id="lutas"><div class="hd"><h3><span class="dot"></span>Lutas canônicas</h3><span class="aux" id="lutasAux"></span></div><div class="scroll" id="listaLutas"></div></div>
+</div></div>
+
+<script>
+(function () {
+  var D = U.D, $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Scouter"));
+  var tip = U.tip(app);
+  var st = { p: null, s: null, f: null, filtro: "todos", q: "" };
+
+  function linhas(p, s) { return (D.podByPer[p.id] || []).filter(function (r) { return r.s === s; }).sort(function (a, b) { return b.v - a.v; }); }
+  function linhaAtual() { var ls = linhas(st.p, st.s); for (var i = 0; i < ls.length; i++) if (ls[i].f === st.f) return ls[i]; return ls[0]; }
+  function picoSaga(p, s) { var ls = linhas(p, s); return ls.length ? ls[0] : null; }
+
+  /* ---------- grade */
+  function grade() {
+    var q = st.q.trim().toLowerCase(), n = 0, h = "";
+    D.perOrdem.forEach(function (p) {
+      if (st.filtro === "herois" && U.vilao(p)) return;
+      if (st.filtro === "viloes" && !U.vilao(p)) return;
+      if (q && (U.nome(p) + " " + p.n).toLowerCase().indexOf(q) < 0) return;
+      n++;
+      var ult = linhas(p, p.sagas[p.sagas.length - 1])[0];
+      var cor = U.aura(ult ? ult.f : "");
+      h += '<div class="tile' + (st.p && st.p.id === p.id ? " on" : "") + '" data-id="' + p.id + '"><div class="glow" style="background:' + cor + '"></div>' +
+        '<div class="ret">' + U.retrato(p, "", cor) + '</div><div class="fx"></div><div class="nm">' + U.esc(U.nome(p)) + "</div></div>";
+    });
+    $("grade").innerHTML = h || '<div class="vazio" style="grid-column:1/-1">Nenhum guerreiro encontrado.</div>';
+    $("qtd").textContent = n + " de " + D.per.length;
+  }
+  $("grade").addEventListener("click", function (e) { var t = e.target.closest(".tile"); if (t) selecionar(D.perById[+t.dataset.id]); });
+  $("busca").addEventListener("input", function (e) { st.q = e.target.value; grade(); });
+  $("filtros").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    st.filtro = b.dataset.f; [].forEach.call(this.children, function (c) { c.classList.toggle("on", c === b); }); grade();
+  });
+
+  /* ---------- seleção */
+  function selecionar(p, s, f) {
+    st.p = p;
+    st.s = s || p.sagas[p.sagas.length - 1];
+    var pk = picoSaga(p, st.s);
+    st.f = f || (pk ? pk.f : null);
+    [].forEach.call($("grade").children, function (t) { t.classList.toggle("on", +t.dataset.id === p.id); });
+    heroi(true); evolucao(); formas(); lutas();
+  }
+  function mudarSaga(s) { st.s = s; var pk = picoSaga(st.p, s); st.f = pk ? pk.f : null; heroi(false); evolucao(); formas(); }
+  function mudarForma(f) { st.f = f; heroi(false); formas(); }
+
+  /* ---------- herói */
+  var ultimaImg = "";
+  function heroi(novo) {
+    var p = st.p, r = linhaAtual(), cor = U.aura(r ? r.f : ""), hero = $("hero");
+    hero.style.setProperty("--aura", cor);
+    $("idn").textContent = "#" + String(p.id).padStart(2, "0");
+    $("nome").textContent = U.nome(p);
+    var pl = U.pt(p.pl), pills = [p.r && p.r !== "Unknown" ? U.pt(p.r) : null, U.pt(p.af), pl ? (/^Planeta/.test(pl) ? pl : "Planeta " + pl) : null].filter(Boolean);
+    $("pills").innerHTML = pills.map(function (x) { return '<span class="pill">' + U.esc(x) + "</span>"; }).join("");
+    $("orig").innerHTML = p.orig === "api" ? '<span class="src c" style="font-size:8.5px">dados da API</span>' : '<span class="src g" style="font-size:8.5px">curadoria própria</span>';
+    var img = (r && r.fi) || p.img;
+    if (novo || img !== ultimaImg) { $("ret").innerHTML = U.retrato(p, img, cor); ultimaImg = img; }
+
+    $("sagas").innerHTML = p.sagas.map(function (s) { return '<button class="chip' + (s === st.s ? " on" : "") + '" data-s="' + s + '">' + U.esc(U.sagaCurta(s)) + "</button>"; }).join("");
+    var on = $("sagas").querySelector(".on"), cx = $("sagas");
+    if (on) cx.scrollLeft = Math.max(0, on.offsetLeft - cx.clientWidth / 2 + on.offsetWidth / 2);
+    $("formasChips").innerHTML = linhas(p, st.s).slice().sort(function (a, b) { return a.v - b.v; }).map(function (x) {
+      return '<button class="chip forma' + (x.f === st.f ? " on" : "") + '" data-f="' + U.esc(x.f) + '">' + U.esc(x.f) + "</button>";
+    }).join("");
+
+    if (!r) return;
+    var base = linhas(p, st.s).filter(function (x) { return x.f === "Base"; })[0];
+    U.contar($("sPoder"), r.v, 700, U.fmt);
+    $("sPoderO").textContent = U.fmtFull(r.v) + " · " + U.sagaCurta(st.s);
+    if (base && r.f !== "Base") { $("sMult").textContent = U.vezes(r.v / base.v); $("sMultO").textContent = "sobre a forma base (" + U.fmt(base.v) + ")"; }
+    else { $("sMult").textContent = "×1"; $("sMultO").textContent = r.f === "Base" ? "forma base" : "sem forma base nesta saga"; }
+    $("sFonte").innerHTML = '<span class="src ' + r.src + '">' + U.srcNome(r.src) + "</span>";
+    $("sFonteO").textContent = r.ob || (r.src === "e" ? "estimado pela metodologia do projeto" : r.src === "g" ? "guia oficial (Daizenshuu 7)" : "dito na obra");
+    leitura(r.v);
+  }
+
+  function leitura(v) {
+    var sc = $("scouter"), av = $("aviso");
+    sc.classList.remove("boom"); av.classList.remove("on");
+    U.contar($("leitura"), v, 900, function (x) { return U.fmt(x); });
+    $("leituraFull").textContent = U.fmtFull(v);
+    $("leituraBar").style.width = "0%";
+    setTimeout(function () { $("leituraBar").style.width = Math.min(100, Math.log10(Math.max(v, 1)) / 11 * 100) + "%"; }, 30);
+    if (v >= 1e8) {
+      setTimeout(function () { void sc.offsetWidth; sc.classList.add("boom"); av.textContent = "SCOUTER SOBRECARREGADO!"; av.classList.add("on"); }, 760);
+    } else if (st.s === 1 && v >= 8000) {
+      setTimeout(function () { av.textContent = "É MAIS DE 8.000!"; av.classList.add("on"); }, 760);
+    }
+  }
+
+  $("sagas").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) mudarSaga(+b.dataset.s); });
+  $("formasChips").addEventListener("click", function (e) { var b = e.target.closest(".chip"); if (b) mudarForma(b.dataset.f); });
+
+  /* ---------- evolução (svg, escala log) */
+  function evolucao() {
+    var p = st.p, svg = $("evoSvg"), w = 380, h = 172, ml = 44, mr = 14, mt = 10, mb = 26;
+    var pts = p.sagas.map(function (s) { var r = picoSaga(p, s); return { s: s, v: r.v, f: r.f }; });
+    var lv = pts.map(function (d) { return Math.log10(d.v); });
+    var lo = Math.floor(Math.min.apply(null, lv)), hi = Math.ceil(Math.max.apply(null, lv));
+    if (hi - lo < 2) { lo -= 1; hi += 1; }
+    var X = function (i) { return pts.length === 1 ? (ml + w - mr) / 2 : ml + i * (w - ml - mr) / (pts.length - 1); };
+    var Y = function (v) { return mt + (hi - Math.log10(v)) / (hi - lo) * (h - mt - mb); };
+    var g = "";
+    var passo = Math.max(1, Math.ceil((hi - lo) / 4));
+    for (var e = lo; e <= hi; e += passo) {
+      var y = Y(Math.pow(10, e));
+      g += '<line x1="' + ml + '" x2="' + (w - mr) + '" y1="' + y + '" y2="' + y + '" stroke="rgba(148,163,209,.12)"/>' +
+        '<text x="' + (ml - 6) + '" y="' + (y + 3) + '" text-anchor="end" font-size="9.5" fill="#64708f" font-family="Rajdhani,Segoe UI,sans-serif" font-weight="700">' + U.fmt(Math.pow(10, e)) + "</text>";
+    }
+    var lin = pts.map(function (d, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(d.v).toFixed(1); }).join("");
+    var area = lin + "L" + X(pts.length - 1) + " " + (h - mb) + "L" + X(0) + " " + (h - mb) + "Z";
+    var dots = pts.map(function (d, i) {
+      var on = d.s === st.s, c = U.aura(d.f);
+      return '<g class="pt" data-i="' + i + '" style="cursor:pointer"><circle cx="' + X(i) + '" cy="' + Y(d.v) + '" r="13" fill="transparent"/>' +
+        (on ? '<circle cx="' + X(i) + '" cy="' + Y(d.v) + '" r="9" fill="' + c + '" opacity=".25"/>' : "") +
+        '<circle cx="' + X(i) + '" cy="' + Y(d.v) + '" r="' + (on ? 5.5 : 3.6) + '" fill="' + (on ? c : "#0b1020") + '" stroke="' + c + '" stroke-width="2"/></g>';
+    }).join("");
+    var lbl = "", idxSel = pts.map(function (d) { return d.s; }).indexOf(st.s);
+    [0, pts.length - 1, idxSel].filter(function (v, i, a) { return v >= 0 && a.indexOf(v) === i; }).forEach(function (i) {
+      var anc = i === 0 && pts.length > 1 ? "start" : i === pts.length - 1 && pts.length > 1 ? "end" : "middle";
+      if (i === idxSel && i !== 0 && i !== pts.length - 1) anc = "middle";
+      lbl += '<text x="' + X(i) + '" y="' + (h - 8) + '" text-anchor="' + anc + '" font-size="10" font-weight="' + (i === idxSel ? 800 : 600) + '" fill="' + (i === idxSel ? "#ffd8a8" : "#64708f") + '">' + U.esc(U.sagaCurta(pts[i].s)) + "</text>";
+    });
+    svg.innerHTML = '<defs><linearGradient id="evg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8a00" stop-opacity=".35"/><stop offset="1" stop-color="#ff8a00" stop-opacity="0"/></linearGradient>' +
+      '<linearGradient id="evl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff8a00"/><stop offset="1" stop-color="#ffd23f"/></linearGradient></defs>' +
+      g + '<path d="' + area + '" fill="url(#evg)"/><path d="' + lin + '" fill="none" stroke="url(#evl)" stroke-width="2.4" stroke-linejoin="round"/>' + dots + lbl;
+    [].forEach.call(svg.querySelectorAll(".pt"), function (el) {
+      var d = pts[+el.dataset.i];
+      el.addEventListener("mousemove", function (ev) { var m = U.pos(ev); tip.mostrar("<b>" + U.esc(U.sagaCurta(d.s)) + "</b><br>" + U.esc(d.f) + " · " + U.fmt(d.v), m.x, m.y); });
+      el.addEventListener("mouseleave", tip.esconder);
+      el.addEventListener("click", function () { tip.esconder(); mudarSaga(d.s); });
+    });
+  }
+
+  /* ---------- formas na saga */
+  function formas() {
+    var ls = linhas(st.p, st.s), mx = ls.length ? Math.log10(ls[0].v) : 1;
+    var base = ls.filter(function (x) { return x.f === "Base"; })[0];
+    $("formasAux").textContent = U.sagaCurta(st.s);
+    $("listaFormas").innerHTML = ls.slice(0, 5).map(function (x) {
+      var c = U.aura(x.f), w = Math.max(6, Math.log10(x.v) / mx * 100);
+      var m = base && x.f !== "Base" ? U.vezes(x.v / base.v) : "";
+      return '<div class="fr' + (x.f === st.f ? " on" : "") + '" data-f="' + U.esc(x.f) + '"><span class="d" style="background:' + c + ";box-shadow:0 0 8px " + c + '"></span>' +
+        '<span class="n">' + U.esc(x.f) + '</span><span class="b"><i style="width:' + w + "%;background:" + c + '"></i></span><span class="v num">' + U.fmt(x.v) + '</span><span class="m">' + m + "</span></div>";
+    }).join("");
+    var cat = D.traByPer[st.p.id] || [];
+    $("catalogo").innerHTML = cat.length ? '<span class="lbl" style="font-size:8.5px;width:62px;line-height:1.2">Outras formas na API</span>' +
+      cat.slice(0, 6).map(function (t) { return '<div class="t" title="' + U.esc(t.n) + '"><div class="ret">' + U.retrato(st.p, t.img, U.aura(t.n)) + "</div></div>"; }).join("") : "";
+  }
+  $("listaFormas").addEventListener("click", function (e) { var r = e.target.closest(".fr"); if (r) mudarForma(r.dataset.f); });
+  $("catalogo").addEventListener("mousemove", function (e) { var t = e.target.closest(".t"); if (!t) return tip.esconder(); var m = U.pos(e); tip.mostrar(U.esc(t.title) + "<br><span style='color:#9aa6c4'>catálogo da API, sem nível curado</span>", m.x - 200, m.y - 60); });
+  $("catalogo").addEventListener("mouseleave", tip.esconder);
+
+  /* ---------- lutas */
+  function lutas() {
+    var p = st.p, ls = D.lut.filter(function (l) { return l.v === p.id || l.d === p.id; });
+    var v = ls.filter(function (l) { return l.r === "vitoria" && l.v === p.id; }).length, d = ls.filter(function (l) { return l.r === "vitoria" && l.d === p.id; }).length;
+    $("lutasAux").textContent = ls.length ? v + (v === 1 ? " vitória · " : " vitórias · ") + d + (d === 1 ? " derrota" : " derrotas") : "";
+    $("listaLutas").innerHTML = ls.length ? ls.map(function (l) {
+      var venceu = l.v === p.id, op = D.perById[venceu ? l.d : l.v], res = l.r !== "vitoria" ? "E" : venceu ? "V" : "D";
+      var minha = venceu ? l.fv : l.fd, dele = venceu ? l.fd : l.fv;
+      return '<div class="lr" data-s="' + l.s + '" data-f="' + U.esc(minha) + '"><span class="r ' + res + '">' + res + '</span><span class="av"><span class="ret">' + U.retrato(op, "", U.aura(dele)) + "</span></span>" +
+        '<div style="min-width:0"><div class="t1">vs ' + U.esc(U.nome(op)) + ' <span style="color:#64708f;font-weight:600">(' + U.esc(dele) + ")</span>" + (l.z ? '<span class="zb">ZEBRA</span>' : "") + "</div>" +
+        '<div class="t2">' + U.esc(minha) + (l.ob ? " · " + U.esc(l.ob) : "") + '</div></div><span class="sg">' + U.esc(U.sagaCurta(l.s)) + "</span></div>";
+    }).join("") : '<div class="vazio">Sem lutas canônicas registradas para este guerreiro.</div>';
+  }
+  $("listaLutas").addEventListener("click", function (e) { var r = e.target.closest(".lr"); if (r) { st.s = +r.dataset.s; st.f = r.dataset.f; heroi(false); evolucao(); formas(); } });
+
+  grade();
+  selecionar(U.porNome("Goku") || D.perOrdem[0]);
+})();
+</script>

@@ -1,0 +1,58 @@
+{
+  "name": "Scouter BI",
+  "dataColors": ["#FF8A00", "#3B82F6", "#39FF88", "#F5C518", "#E4572E", "#A78BFA", "#22D3EE", "#F472B6"],
+  "background": "#121A2E",
+  "foreground": "#F2F4F8",
+  "tableAccent": "#FF8A00",
+  "good": "#39FF88",
+  "neutral": "#F5C518",
+  "bad": "#E4572E",
+  "textClasses": {
+    "callout": { "color": "#FF8A00", "fontFace": "Segoe UI Semibold" },
+    "title": { "color": "#F2F4F8", "fontFace": "Segoe UI Semibold" },
+    "header": { "color": "#F2F4F8", "fontFace": "Segoe UI Semibold" },
+    "label": { "color": "#C9D1E6", "fontFace": "Segoe UI" }
+  },
+  "visualStyles": {
+    "page": {
+      "*": {
+        "background": [{ "color": { "solid": { "color": "#0B1020" } }, "transparency": 0 }],
+        "outspace": [{ "color": { "solid": { "color": "#070B16" } } }]
+      }
+    },
+    "*": {
+      "*": {
+        "background": [{ "show": true, "color": { "solid": { "color": "#121A2E" } }, "transparency": 0 }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#24304F" } }, "radius": 12 }],
+        "title": [{ "fontColor": { "solid": { "color": "#F2F4F8" } }, "fontSize": 12 }],
+        "dropShadow": [{ "show": false }]
+      }
+    },
+    "textbox": {
+      "*": {
+        "background": [{ "show": false }],
+        "border": [{ "show": false }]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid": [{ "gridHorizontalColor": { "solid": { "color": "#24304F" } }, "rowPadding": 4 }],
+        "columnHeaders": [{ "fontColor": { "solid": { "color": "#9AA6C4" } }, "backColor": { "solid": { "color": "#121A2E" } } }],
+        "values": [{ "fontColorPrimary": { "solid": { "color": "#F2F4F8" } }, "backColorPrimary": { "solid": { "color": "#121A2E" } },
+                     "fontColorSecondary": { "solid": { "color": "#F2F4F8" } }, "backColorSecondary": { "solid": { "color": "#16203A" } } }]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [{ "color": { "solid": { "color": "#FF8A00" } }, "fontSize": 28 }],
+        "categoryLabels": [{ "show": false }]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [{ "fontColor": { "solid": { "color": "#9AA6C4" } } }],
+        "items": [{ "fontColor": { "solid": { "color": "#F2F4F8" } }, "background": { "solid": { "color": "#16203A" } } }]
+      }
+    }
+  }
+}

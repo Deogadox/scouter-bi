@@ -1,0 +1,249 @@
+<style>
+#placar { left: 16px; top: 60px; width: 300px; height: 644px; display: flex; flex-direction: column; }
+#placar .big { padding: 4px 18px 0; }
+#placar .k { font-size: 9px; font-weight: 800; letter-spacing: .18em; color: var(--mut); text-transform: uppercase; }
+#pts { font-size: 54px; line-height: 1; color: var(--or2); }
+.mini { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 12px 16px 0; }
+.mini div { padding: 9px 10px; border-radius: 12px; background: rgba(5, 9, 20, .55); border: 1px solid var(--line); }
+.mini b { display: block; font: 700 21px Rajdhani, 'Segoe UI', sans-serif; color: #fff; }
+#prog { display: flex; gap: 5px; padding: 14px 16px 4px; }
+#prog i { flex: 1; height: 7px; border-radius: 4px; background: rgba(148, 163, 209, .14); }
+#prog i.ok { background: var(--gr); box-shadow: 0 0 8px rgba(57, 255, 136, .5); }
+#prog i.er { background: var(--rd); }
+#prog i.at { background: var(--or); animation: flick 1s infinite; }
+#escada { flex: 1; padding: 6px 12px 12px 16px; }
+.pat { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 10px; border-radius: 11px; color: var(--mut); font-weight: 700; font-size: 12px; }
+.pat .e { width: 26px; display: grid; place-items: center; }
+.pat .m { margin-left: auto; font: 700 12px Rajdhani, 'Segoe UI', sans-serif; }
+.pat.on { background: rgba(255, 138, 0, .14); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 138, 0, .5); }
+
+#jogo { left: 328px; top: 60px; width: 936px; height: 644px; }
+#topoQ { display: flex; align-items: center; gap: 12px; padding: 18px 24px 0; }
+#nQ { font-size: 12px; font-weight: 800; letter-spacing: .14em; color: var(--sub); text-transform: uppercase; }
+#cat { margin-left: 4px; }
+#rel { margin-left: auto; position: relative; width: 52px; height: 52px; }
+#rel svg { transform: rotate(-90deg); }
+#rel span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 18px Rajdhani, 'Segoe UI', sans-serif; }
+#txt { padding: 14px 24px 0; font-size: 25px; font-weight: 800; line-height: 1.25; min-height: 98px; }
+#txt small { display: block; font-size: 13px; color: var(--sub); font-weight: 600; margin-top: 6px; }
+#ops { padding: 10px 24px 0; display: grid; gap: 12px; }
+#ops.duo { grid-template-columns: 1fr 1fr; }
+#ops.quad { grid-template-columns: 1fr 1fr; }
+.opc { position: relative; border-radius: 16px; border: 1px solid var(--line2); background: linear-gradient(180deg, rgba(30, 41, 72, .9), rgba(13, 19, 36, .95)); cursor: pointer;
+  overflow: hidden; transition: transform .12s, border-color .15s, box-shadow .15s; text-align: left; }
+.opc:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, .35); }
+.opc.ok { border-color: var(--gr); box-shadow: 0 0 0 2px var(--gr), 0 0 26px rgba(57, 255, 136, .3); }
+.opc.er { border-color: var(--rd); box-shadow: 0 0 0 2px var(--rd); opacity: .8; }
+.opc.off { pointer-events: none; }
+.duo .opc { height: 300px; }
+.duo .opc .ret { position: absolute; left: 0; right: 0; top: 10px; bottom: 74px; }
+.duo .opc .ret img, .duo .opc .ret svg { height: 100%; }
+.duo .opc .gl { position: absolute; left: 50%; top: 40%; width: 260px; height: 260px; margin: -130px 0 0 -130px; border-radius: 50%; background: radial-gradient(circle, var(--aura), transparent 65%); opacity: .45; }
+.duo .opc .rod { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 16px; background: linear-gradient(0deg, rgba(8, 12, 24, .97), rgba(8, 12, 24, .6)); }
+.opc .n { font-size: 26px; line-height: 1; }
+.opc .s { font-size: 11.5px; color: var(--sub); margin-top: 4px; font-weight: 600; }
+.quad .opc { height: 112px; display: flex; align-items: center; gap: 14px; padding: 0 18px; }
+.quad .opc .av { width: 76px; height: 92px; position: relative; flex: 0 0 auto; }
+.quad .opc .av .ret { position: absolute; inset: 0; align-items: flex-start; }
+.quad .opc .av img, .quad .opc .av svg { height: 170%; }
+.quad .opc .big { font: 700 30px Rajdhani, 'Segoe UI', sans-serif; }
+.letra { position: absolute; right: 12px; top: 10px; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-size: 11px; font-weight: 900; background: rgba(255, 255, 255, .08); color: var(--sub); }
+#fb { position: absolute; left: 24px; right: 24px; bottom: 20px; min-height: 86px; display: none; align-items: center; gap: 16px; padding: 14px 18px; border-radius: 16px; background: rgba(5, 9, 20, .7); border: 1px solid var(--line2); }
+#fb.on { display: flex; animation: fadeUp .3s both; }
+#fb .ic { font-size: 30px; }
+#fb .t1 { font-size: 16px; font-weight: 900; }
+#fb .t2 { font-size: 12.5px; color: var(--sub); margin-top: 3px; line-height: 1.35; }
+#fb .btn { margin-left: auto; flex: 0 0 auto; }
+
+.tela { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+.tela.on { display: flex; animation: fadeUp .35s both; }
+.tela h1 { font-family: Bangers, Impact, sans-serif; font-size: 64px; letter-spacing: 2px; line-height: 1; background: linear-gradient(180deg, #ffe08a, #ff7a00); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tela p { color: var(--sub); font-size: 14px; line-height: 1.6; max-width: 560px; margin: 14px 0 24px; }
+.tela .esf { display: flex; gap: 8px; margin-bottom: 18px; }
+.tela .esf svg { animation: pop .5s both; }
+.tela .btn.pri { height: 50px; padding: 0 34px; font-size: 16px; }
+#rankFinal { font-family: Bangers, Impact, sans-serif; font-size: 46px; letter-spacing: 1.5px; color: #fff; margin-top: 6px; }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card" id="placar">
+    <div class="hd"><h3><span class="dot"></span>Placar</h3><span class="aux" id="rec"></span></div>
+    <div class="big"><div class="k">Pontos</div><div id="pts" class="num">0</div></div>
+    <div class="mini"><div><b id="ac">0/0</b><span class="k">acertos</span></div><div><b id="seq">0</b><span class="k">sequência</span></div><div><b id="bon">0</b><span class="k">bônus</span></div></div>
+    <div id="prog"></div>
+    <div class="hd" style="padding-top:12px"><h3><span class="dot" style="background:var(--or2)"></span>Patentes</h3></div>
+    <div class="scroll" id="escada"></div>
+  </div>
+
+  <div class="card" id="jogo">
+    <div id="painelQ" style="display:none">
+      <div id="topoQ"><span id="nQ"></span><span class="pill" id="cat"></span>
+        <div id="rel"><svg width="52" height="52"><circle cx="26" cy="26" r="22" stroke="rgba(148,163,209,.15)" stroke-width="5" fill="none"/><circle id="relC" cx="26" cy="26" r="22" stroke="#ff8a00" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><span id="relT">20</span></div></div>
+      <div id="txt"></div>
+      <div id="ops"></div>
+      <div id="fb"><div class="ic" id="fbI"></div><div><div class="t1" id="fbT"></div><div class="t2" id="fbS"></div></div><button class="btn pri" id="prox">Próxima ›</button></div>
+    </div>
+    <div class="tela on" id="inicio">
+      <div class="esf" id="esfI"></div>
+      <h1>QUIZ DO SCOUTER</h1>
+      <p>10 perguntas sorteadas a partir dos dados do relatório: lutas canônicas, quem era o mais forte em cada saga, níveis de poder e transformações. Responda rápido: o tempo que sobra vira bônus, e acertos em sequência valem mais.</p>
+      <button class="btn pri" id="comecar">Começar ›</button>
+    </div>
+    <div class="tela" id="final">
+      <div class="esf" id="esfF"></div>
+      <div class="k" style="font-size:10px;letter-spacing:.2em;color:var(--sub);font-weight:800">SUA PATENTE</div>
+      <div id="rankFinal"></div>
+      <p id="finalTxt"></p>
+      <div style="display:flex;gap:10px"><button class="btn pri" id="denovo">↺ Jogar de novo</button></div>
+    </div>
+  </div>
+</div></div>
+
+<script>
+(function () {
+  var D = U.D, $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Quiz"));
+  var PAT = [[0, "Saibaman", 1], [300, "Terráqueo", 1], [600, "Guerreiro Z", 2], [900, "Super Saiyajin", 3], [1200, "Super Saiyajin 2", 4], [1500, "Super Saiyajin 3", 5], [1800, "Super Saiyajin Deus", 6], [2100, "Instinto Superior", 7]];
+  var TEMPO = 20, N = 10;
+  var est = null, timer = null, recorde = 0;
+  try { recorde = +(localStorage.getItem("scouterbi_quiz") || 0); } catch (e) { }
+
+  function rnd(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function emb(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function picos(s) { var m = {}; D.pod.forEach(function (r) { if (r.s === s && (!m[r.p] || r.v > m[r.p].v)) m[r.p] = r; }); return Object.keys(m).map(function (k) { return m[k]; }).sort(function (a, b) { return b.v - a.v; }); }
+  function rotulo(r) { return r.f + " · " + U.sagaCurta(r.s); }
+
+  /* ---------- geradores de pergunta */
+  var G = {
+    luta: function () {
+      var l = rnd(D.lut.filter(function (x) { return x.r === "vitoria"; }));
+      var v = D.perById[l.v], d = D.perById[l.d], rv = D.pod.filter(function (r) { return r.p === l.v && r.s === l.s && r.f === l.fv; })[0], rd = D.pod.filter(function (r) { return r.p === l.d && r.s === l.s && r.f === l.fd; })[0];
+      var ops = emb([{ p: v, r: rv, ok: true }, { p: d, r: rd, ok: false }]);
+      return { cat: "Luta canônica", tipo: "duo", txt: "Quem venceu esta luta?<small>" + U.esc(D.sagaByO[l.s].n) + "</small>", ops: ops,
+        exp: (l.z ? "Zebra! " : "") + U.nome(v) + " (" + l.fv + ", " + U.fmt(rv.v) + ") venceu " + U.nome(d) + " (" + l.fd + ", " + U.fmt(rd.v) + ")" + (l.ob ? ". " + l.ob + "." : ".") };
+    },
+    forte: function () {
+      var s = rnd(D.sagas.filter(function (x) { return picos(x.o).length >= 4; })), ps = picos(s.o);
+      var ops = emb([ps[0]].concat(emb(ps.slice(1)).slice(0, 3))).map(function (r) { return { p: D.perById[r.p], r: r, ok: r === ps[0] }; });
+      return { cat: "Mais forte da saga", tipo: "quad", txt: "Quem era o mais forte na " + U.esc(s.n) + "?", ops: ops,
+        exp: U.nome(D.perById[ps[0].p]) + " (" + ps[0].f + ") liderava com " + U.fmt(ps[0].v) + ". O segundo era " + U.nome(D.perById[ps[1].p]) + " com " + U.fmt(ps[1].v) + "." };
+    },
+    comparar: function () {
+      var a, b, k = 0;
+      do { a = rnd(D.pod); b = rnd(D.pod); k++; } while ((a.p === b.p || a.v / b.v < 1.4 && b.v / a.v < 1.4 || Math.max(a.v / b.v, b.v / a.v) > 1e4) && k < 200);
+      var ops = emb([{ p: D.perById[a.p], r: a, ok: a.v > b.v }, { p: D.perById[b.p], r: b, ok: b.v > a.v }]);
+      var M = a.v > b.v ? a : b, m = a.v > b.v ? b : a;
+      return { cat: "Comparação", tipo: "duo", txt: "Quem tinha mais poder?", ops: ops,
+        exp: U.nome(D.perById[M.p]) + " (" + rotulo(M) + ") tinha " + U.fmt(M.v) + ", ×" + (M.v / m.v).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " o poder de " + U.nome(D.perById[m.p]) + " (" + U.fmt(m.v) + ")." };
+    },
+    valor: function () {
+      var r = rnd(D.pod.filter(function (x) { return x.src !== "e"; })), p = D.perById[r.p];
+      var fat = emb([0.1, 10, 100, 0.01, 3, 0.3]).slice(0, 3);
+      var ops = emb([r.v].concat(fat.map(function (f) { return Math.round(r.v * f); }))).map(function (v) { return { val: v, ok: v === r.v }; });
+      return { cat: "Nível de poder", tipo: "quad", txt: "Qual era o nível de poder de " + U.esc(U.nome(p)) + "?<small>" + U.esc(r.f) + " · " + U.esc(D.sagaByO[r.s].n) + "</small>", ops: ops, p: p, r: r,
+        exp: U.fmtFull(r.v) + " — número " + U.srcNome(r.src) + (r.ob ? " (" + r.ob + ")" : "") + "." };
+    },
+    mult: function () {
+      var q = rnd([["o Super Saiyajin (SSJ)", 50], ["o Super Saiyajin 2 (SSJ2)", 100], ["o Super Saiyajin 3 (SSJ3)", 400], ["o Kaioken x4", 4]]);
+      var ops = emb([2, 4, 10, 50, 100, 400].filter(function (x) { return x !== q[1]; })).slice(0, 3).concat([q[1]]);
+      return { cat: "Transformações", tipo: "quad", txt: "Na metodologia do projeto, quanto " + q[0] + " multiplica o poder base?",
+        ops: emb(ops).map(function (v) { return { txt: "×" + v, ok: v === q[1] }; }), exp: "Regra do projeto: SSJ ×50, SSJ2 ×100, SSJ3 ×400 e Kaioken ×N, aplicadas sobre a base de cada saga." };
+    }
+  };
+
+  function sortear() {
+    var tipos = emb(["luta", "luta", "luta", "forte", "forte", "comparar", "comparar", "valor", "valor", "mult"]);
+    return tipos.map(function (t) { return G[t](); });
+  }
+
+  /* ---------- placar */
+  function patente(p) { var r = PAT[0]; PAT.forEach(function (x) { if (p >= x[0]) r = x; }); return r; }
+  function placar() {
+    $("pts").textContent = est.pts.toLocaleString("pt-BR");
+    $("ac").textContent = est.ok + "/" + est.i;
+    $("seq").textContent = est.seq + (est.seq >= 3 ? " 🔥" : "");
+    $("bon").textContent = est.bonus.toLocaleString("pt-BR");
+    $("prog").innerHTML = est.res.map(function (r, i) { return "<i class='" + (r === 1 ? "ok" : r === 0 ? "er" : i === est.i && !est.fim ? "at" : "") + "'></i>"; }).join("");
+    var pt = patente(est.pts);
+    $("escada").innerHTML = PAT.slice().reverse().map(function (x) {
+      return '<div class="pat' + (x === pt ? " on" : "") + '"><span class="e">' + U.esfera(x[2], 22) + "</span>" + x[1] + '<span class="m">' + x[0].toLocaleString("pt-BR") + "+</span></div>";
+    }).join("");
+    $("rec").textContent = "recorde " + recorde.toLocaleString("pt-BR");
+  }
+
+  /* ---------- fluxo */
+  function iniciar() {
+    est = { qs: sortear(), i: 0, pts: 0, ok: 0, seq: 0, bonus: 0, res: Array(N).fill(-1), fim: false };
+    $("inicio").classList.remove("on"); $("final").classList.remove("on"); $("painelQ").style.display = "block";
+    pergunta();
+  }
+  function pergunta() {
+    var q = est.qs[est.i];
+    $("nQ").textContent = "Pergunta " + (est.i + 1) + " de " + N;
+    $("cat").textContent = q.cat;
+    $("txt").innerHTML = q.txt;
+    $("fb").classList.remove("on");
+    var ops = $("ops"); ops.className = q.tipo;
+    ops.innerHTML = q.ops.map(function (o, k) {
+      var L = "<span class='letra'>" + "ABCD"[k] + "</span>";
+      if (q.tipo === "duo") {
+        var c = U.aura(o.r.f);
+        return '<button class="opc" data-k="' + k + '" style="--aura:' + c + '"><div class="gl"></div><div class="ret">' + U.retrato(o.p, o.r.fi || o.p.img, c) + '</div><div class="rod"><div class="n tit">' + U.esc(U.nome(o.p)) + '</div><div class="s">' + U.esc(rotulo(o.r)) + "</div></div>" + L + "</button>";
+      }
+      if (o.p) return '<button class="opc" data-k="' + k + '"><div class="av"><div class="ret">' + U.retrato(o.p, o.r.fi || o.p.img, U.aura(o.r.f)) + '</div></div><div><div class="n tit">' + U.esc(U.nome(o.p)) + '</div><div class="s">' + U.esc(o.r.f) + "</div></div>" + L + "</button>";
+      if (o.val != null) return '<button class="opc" data-k="' + k + '"><div class="big">' + U.fmtFull(o.val) + '</div><div class="s" style="margin-left:auto;margin-right:30px">' + U.fmt(o.val) + "</div>" + L + "</button>";
+      return '<button class="opc" data-k="' + k + '"><div class="big">' + U.esc(o.txt) + "</div>" + L + "</button>";
+    }).join("");
+    est.t0 = Date.now(); est.respondido = false; relogio(); placar();
+  }
+  function relogio() {
+    clearInterval(timer);
+    timer = setInterval(function () {
+      var r = Math.max(0, TEMPO - (Date.now() - est.t0) / 1000);
+      $("relT").textContent = Math.ceil(r);
+      $("relC").setAttribute("stroke-dashoffset", (138.2 * (1 - r / TEMPO)).toFixed(1));
+      $("relC").setAttribute("stroke", r > 10 ? "#ff8a00" : r > 5 ? "#ffd23f" : "#ff4d5e");
+      if (r <= 0) responder(-1);
+    }, 100);
+  }
+  function responder(k) {
+    if (est.respondido) return;
+    est.respondido = true; clearInterval(timer);
+    var q = est.qs[est.i], certo = k >= 0 && q.ops[k].ok, sobra = Math.max(0, TEMPO - (Date.now() - est.t0) / 1000);
+    [].forEach.call($("ops").children, function (b, j) { b.classList.add("off"); if (q.ops[j].ok) b.classList.add("ok"); else if (j === k) b.classList.add("er"); });
+    var ganho = 0;
+    if (certo) {
+      est.ok++; est.seq++;
+      var b = Math.round(sobra * 5) + (est.seq >= 3 ? 50 : 0);
+      ganho = 100 + b; est.bonus += b; est.pts += ganho;
+    } else est.seq = 0;
+    est.res[est.i] = certo ? 1 : 0;
+    $("fbI").textContent = certo ? "✅" : k < 0 ? "⏱️" : "❌";
+    $("fbT").innerHTML = certo ? "Acertou! <span style='color:var(--gr)'>+" + ganho + "</span>" : k < 0 ? "O tempo acabou!" : "Errou!";
+    $("fbS").textContent = q.exp;
+    $("prox").textContent = est.i === N - 1 ? "Ver resultado ›" : "Próxima ›";
+    $("fb").classList.add("on");
+    placar();
+  }
+  function proxima() { est.i++; if (est.i >= N) final(); else pergunta(); }
+  function final() {
+    est.fim = true; clearInterval(timer);
+    var pt = patente(est.pts), novo = est.pts > recorde;
+    if (novo) { recorde = est.pts; try { localStorage.setItem("scouterbi_quiz", String(recorde)); } catch (e) { } }
+    $("painelQ").style.display = "none";
+    $("rankFinal").textContent = pt[1].toUpperCase();
+    $("esfF").innerHTML = Array.apply(null, Array(pt[2])).map(function (_, i) { return '<span style="animation-delay:' + i * 90 + 'ms;display:inline-block">' + U.esfera(i + 1, 44) + "</span>"; }).join("");
+    $("finalTxt").innerHTML = "<b style='color:#fff;font-size:18px'>" + est.pts.toLocaleString("pt-BR") + " pontos</b> · " + est.ok + " de " + N + " acertos" + (novo ? " · <b style='color:var(--gr)'>novo recorde!</b>" : "") +
+      "<br>Cada patente rende esferas do dragão. Junte as 7 chegando aos " + PAT[7][0].toLocaleString("pt-BR") + " pontos.";
+    $("final").classList.add("on"); placar();
+  }
+
+  $("ops").addEventListener("click", function (e) { var b = e.target.closest(".opc"); if (b) responder(+b.dataset.k); });
+  $("prox").addEventListener("click", proxima);
+  $("comecar").addEventListener("click", iniciar);
+  $("denovo").addEventListener("click", iniciar);
+  $("esfI").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(function (n, i) { return '<span style="animation-delay:' + i * 80 + 'ms;display:inline-block">' + U.esfera(n, 46) + "</span>"; }).join("");
+  est = { pts: 0, ok: 0, i: 0, seq: 0, bonus: 0, res: Array(N).fill(-1), fim: true };
+  placar();
+})();
+</script>

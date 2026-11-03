@@ -1,0 +1,180 @@
+<style>
+#disp { left: 16px; top: 60px; width: 400px; height: 644px; display: flex; flex-direction: column; align-items: center; }
+#tela { position: relative; width: 320px; height: 320px; margin-top: 6px; border-radius: 50%;
+  background: radial-gradient(circle, #0f3d26 0%, #072a19 60%, #041a10 100%); border: 10px solid #d9dde6;
+  box-shadow: 0 0 0 4px #9aa3b5, 0 0 0 7px #2a3247, 0 16px 40px rgba(0, 0, 0, .55), inset 0 0 40px rgba(0, 0, 0, .6); overflow: hidden; }
+#tela::before { content: ''; position: absolute; left: 50%; top: -14px; width: 46px; height: 24px; margin-left: -23px; border-radius: 8px 8px 0 0; background: #c7ccd8; }
+#tela .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(57, 255, 136, .18) 1px, transparent 1px), linear-gradient(90deg, rgba(57, 255, 136, .18) 1px, transparent 1px); background-size: 30px 30px; background-position: center; }
+#tela .anel { position: absolute; left: 50%; top: 50%; border: 1px solid rgba(57, 255, 136, .25); border-radius: 50%; }
+#tela .var { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, rgba(57, 255, 136, .0) 0deg, rgba(57, 255, 136, .0) 300deg, rgba(57, 255, 136, .45) 360deg); animation: spin 2.6s linear infinite; }
+#tela .centro { position: absolute; left: 50%; top: 50%; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 12px solid #ff4d5e; margin: -7px 0 0 -7px; }
+#blip { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #ffd23f; box-shadow: 0 0 14px #ffd23f, 0 0 30px #ff8a00; display: none; animation: flick .9s infinite; }
+#blip.on { display: block; }
+#sinal { margin-top: 18px; text-align: center; min-height: 44px; }
+#sinal .t { font-size: 15px; font-weight: 800; }
+#sinal .s { font-size: 11.5px; color: var(--sub); margin-top: 3px; }
+.blk { width: 352px; margin-top: 12px; }
+.blk .k { font-size: 9px; font-weight: 800; letter-spacing: .18em; color: var(--mut); text-transform: uppercase; margin-bottom: 7px; display: flex; justify-content: space-between; }
+#bat { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; }
+#bat i { height: 14px; border-radius: 3px; background: var(--gr); box-shadow: 0 0 6px rgba(57, 255, 136, .45); transition: all .3s; }
+#bat i.off { background: rgba(148, 163, 209, .12); box-shadow: none; }
+#bat.baixa i:not(.off) { background: var(--rd); box-shadow: 0 0 6px rgba(255, 77, 94, .5); }
+#esferas { display: flex; justify-content: space-between; }
+#esferas span { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: rgba(5, 9, 20, .6); border: 1px dashed var(--line2); }
+#esferas span.ok { border: 0; background: none; }
+#esferas span.ok svg { animation: pop .5s both; }
+
+#mapa { left: 428px; top: 60px; width: 836px; height: 644px; }
+#mapa .hd .btn { height: 32px; font-size: 11.5px; }
+#tab { position: absolute; left: 36px; top: 68px; display: grid; grid-template-columns: repeat(12, 60px); grid-auto-rows: 60px; gap: 4px; }
+.cel { position: relative; border-radius: 10px; cursor: pointer; overflow: hidden; transition: transform .1s, filter .2s; }
+.cel::after { content: ''; position: absolute; inset: 0; background: rgba(4, 8, 18, .55); transition: opacity .35s; }
+.cel:hover { transform: scale(1.06); z-index: 2; filter: brightness(1.25); }
+.cel.vis::after { opacity: 0; }
+.cel.vis { cursor: default; transform: none; filter: none; }
+.cel .d { position: absolute; inset: 0; display: grid; place-items: center; font: 700 26px Rajdhani, 'Segoe UI', sans-serif; color: #fff; text-shadow: 0 2px 4px rgba(0, 0, 0, .8); z-index: 2; animation: pop .35s both; }
+.cel .d small { font-size: 9px; display: block; margin-top: -6px; opacity: .8; }
+.cel .bola { position: absolute; inset: 0; display: grid; place-items: center; z-index: 2; animation: pop .5s both; }
+.cel.achou { box-shadow: 0 0 0 3px var(--or2), 0 0 26px var(--or); z-index: 3; }
+.cel.dica { box-shadow: 0 0 0 2px rgba(255, 210, 63, .9); }
+#legenda { position: absolute; left: 36px; right: 36px; bottom: 18px; display: flex; gap: 16px; align-items: center; font-size: 11px; color: var(--sub); }
+#legenda i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -3px; margin-right: 5px; }
+
+.modal { position: absolute; inset: 0; z-index: 30; display: none; place-items: center; background: rgba(2, 4, 10, .78); }
+.modal.on { display: grid; animation: fadeUp .4s both; }
+#mVit { background: radial-gradient(900px 600px at 50% 40%, rgba(57, 255, 136, .18), transparent 60%), rgba(2, 6, 4, .92); }
+#drag { position: absolute; left: 50%; top: 20px; width: 1000px; height: 420px; margin-left: -500px; pointer-events: none; }
+#drag .corpo { stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: dese 2.4s ease forwards; }
+@keyframes dese { to { stroke-dashoffset: 0; } }
+#drag .cab { opacity: 0; animation: fadeUp .6s 2s both; }
+.raio1 { position: absolute; inset: 0; background: #fff; opacity: 0; animation: rel 3s .2s; pointer-events: none; }
+@keyframes rel { 0%, 100% { opacity: 0; } 3% { opacity: .5; } 6% { opacity: 0; } 9% { opacity: .35; } 12% { opacity: 0; } }
+.mbox { position: relative; z-index: 2; margin-top: 300px; text-align: center; }
+.mbox h1 { font-family: Bangers, Impact, sans-serif; font-size: 58px; letter-spacing: 2px; color: #eafff2; text-shadow: 0 0 30px rgba(57, 255, 136, .8), 0 4px 0 #000; }
+.mbox p { color: #b9c7d8; font-size: 14px; margin: 8px 0 18px; }
+.mbox .acts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+#resp { margin-top: 18px; min-height: 24px; font-size: 16px; font-weight: 800; color: #eafff2; }
+#mDer .mbox { margin-top: 0; padding: 30px 40px; border-radius: 22px; background: linear-gradient(180deg, rgba(25, 34, 60, .98), rgba(12, 17, 32, .98)); border: 1px solid var(--line2); }
+#mDer h1 { color: #fff; text-shadow: 0 0 20px rgba(255, 77, 94, .7), 0 4px 0 #000; }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card" id="disp">
+    <div class="hd" style="width:100%"><h3><span class="dot" style="background:var(--gr);box-shadow:0 0 10px var(--gr)"></span>Radar do Dragão</h3><span class="aux">invenção da Bulma</span></div>
+    <div id="tela"><div class="grid"></div><div class="anel" style="width:100px;height:100px;margin:-50px 0 0 -50px"></div><div class="anel" style="width:200px;height:200px;margin:-100px 0 0 -100px"></div><div class="anel" style="width:290px;height:290px;margin:-145px 0 0 -145px"></div><div class="var"></div><div class="centro"></div><div id="blip"></div></div>
+    <div id="sinal"><div class="t">Toque no mapa para escanear</div><div class="s">Cada varredura mostra a distância até a esfera mais próxima.</div></div>
+    <div class="blk"><div class="k"><span>Bateria</span><span id="batT"></span></div><div id="bat"></div></div>
+    <div class="blk"><div class="k"><span>Esferas</span><span id="esfT"></span></div><div id="esferas"></div></div>
+  </div>
+  <div class="card" id="mapa">
+    <div class="hd"><h3><span class="dot"></span>Mapa da Terra</h3><button class="btn" id="novo">↺ Nova partida</button></div>
+    <div id="tab"></div>
+    <div id="legenda"><span><i style="background:#ff4d5e"></i>1 setor</span><span><i style="background:#ff8a00"></i>2</span><span><i style="background:#ffd23f"></i>3</span><span><i style="background:#3b82f6"></i>4 ou mais</span><span style="margin-left:auto">O número é a distância, em setores, até a esfera mais próxima ainda escondida.</span></div>
+  </div>
+  <div class="modal" id="mVit"><div class="raio1"></div>
+    <svg id="drag" viewBox="0 0 1000 420"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f8f4e"/><stop offset=".5" stop-color="#39ff88"/><stop offset="1" stop-color="#1f8f4e"/></linearGradient>
+      <filter id="glw"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <path class="corpo" d="M40 400 C 160 260, 260 380, 360 250 S 520 120, 600 230 S 760 330, 820 170 S 880 60, 790 70" fill="none" stroke="url(#dg)" stroke-width="34" stroke-linecap="round" filter="url(#glw)"/>
+      <path class="corpo" d="M40 400 C 160 260, 260 380, 360 250 S 520 120, 600 230 S 760 330, 820 170 S 880 60, 790 70" fill="none" stroke="#c8ffd9" stroke-width="6" stroke-dasharray="4 18" opacity=".7"/>
+      <g class="cab" filter="url(#glw)"><path d="M760 52 L830 40 L872 62 L846 92 L784 98 Z" fill="#2fd97a"/><path d="M800 44 L788 6 L812 38 M826 42 L840 4 L838 44" stroke="#c8ffd9" stroke-width="5" fill="none"/>
+        <circle cx="822" cy="62" r="7" fill="#ff2a2a"/><path d="M846 88 C 880 100, 900 120, 930 118 M846 80 C 890 76, 920 60, 944 70" stroke="#c8ffd9" stroke-width="3" fill="none"/></g></svg>
+    <div class="mbox"><h1>DIGA O SEU DESEJO!</h1><p>Você reuniu as 7 esferas do dragão com <b id="sobra"></b>.</p>
+      <div class="acts"><button class="btn" data-d="0">Reviver o Kuririn</button><button class="btn" data-d="1">Ficar mais forte que o Goku</button><button class="btn pri" data-d="2">Contratar quem fez este relatório</button></div>
+      <div id="resp"></div><div style="margin-top:14px"><button class="btn" id="vitNovo">↺ Jogar de novo</button></div></div></div>
+  <div class="modal" id="mDer"><div class="mbox"><h1>A BATERIA ACABOU!</h1><p id="derT"></p><button class="btn pri" id="derNovo">↺ Tentar de novo</button></div></div>
+</div></div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Radar"));
+  var C = 12, L = 8, BAT = 24, NB = 7;
+  var jogo = null;
+  var DIR = ["leste", "sudeste", "sul", "sudoeste", "oeste", "noroeste", "norte", "nordeste"];
+
+  function ruido(seed) {
+    var a = [];
+    for (var i = 0; i < 6; i++) a.push([Math.random() * 6.28, 0.25 + Math.random() * 0.7, Math.random() * 6.28, 0.25 + Math.random() * 0.7]);
+    return function (x, y) { var s = 0; a.forEach(function (k) { s += Math.sin(x * k[1] + k[0]) * Math.cos(y * k[3] + k[2]); }); return s / a.length; };
+  }
+  function terreno(h) {
+    if (h < -0.26) return ["#1d5a96", "#3484c9"];
+    if (h < -0.15) return ["#c7a96a", "#e3cc8e"];
+    if (h < 0.08) return ["#4f9e4f", "#74c46a"];
+    if (h < 0.26) return ["#1f5a2e", "#2f7a3e"];
+    return ["#6f6457", "#a39383"];
+  }
+  function novo() {
+    var f = ruido(), cel = [];
+    for (var y = 0; y < L; y++) for (var x = 0; x < C; x++) cel.push({ x: x, y: y, t: terreno(f(x, y)), vis: false, bola: 0 });
+    var livres = cel.slice().sort(function () { return Math.random() - .5; }), n = 0;
+    for (var i = 0; i < livres.length && n < NB; i++) {
+      var c = livres[i];
+      if (cel.some(function (o) { return o.bola && Math.max(Math.abs(o.x - c.x), Math.abs(o.y - c.y)) < 2; })) continue;
+      c.bola = ++n;
+    }
+    jogo = { cel: cel, bat: BAT, achadas: [], fim: false };
+    $("mVit").classList.remove("on"); $("mDer").classList.remove("on"); $("resp").textContent = ""; $("blip").classList.remove("on");
+    $("sinal").innerHTML = '<div class="t">Toque no mapa para escanear</div><div class="s">Cada varredura mostra a distância até a esfera mais próxima.</div>';
+    desenhar(); hud();
+  }
+  function desenhar() {
+    $("tab").innerHTML = jogo.cel.map(function (c, i) {
+      return '<div class="cel' + (c.vis ? " vis" : "") + '" data-i="' + i + '" style="background:linear-gradient(135deg,' + c.t[1] + "," + c.t[0] + ')"></div>';
+    }).join("");
+  }
+  function hud() {
+    $("bat").innerHTML = Array.apply(null, Array(BAT)).map(function (_, i) { return "<i class='" + (i >= jogo.bat ? "off" : "") + "'></i>"; }).join("");
+    $("bat").classList.toggle("baixa", jogo.bat <= 5);
+    $("batT").textContent = jogo.bat + " varreduras";
+    $("esferas").innerHTML = [1, 2, 3, 4, 5, 6, 7].map(function (n) { return jogo.achadas.indexOf(n) >= 0 ? '<span class="ok">' + U.esfera(n, 42) + "</span>" : "<span></span>"; }).join("");
+    $("esfT").textContent = jogo.achadas.length + " de 7";
+  }
+  function proxima(c) {
+    var m = null;
+    jogo.cel.forEach(function (o) {
+      if (!o.bola || jogo.achadas.indexOf(o.bola) >= 0) return;
+      var d = Math.max(Math.abs(o.x - c.x), Math.abs(o.y - c.y)), e = Math.hypot(o.x - c.x, o.y - c.y);
+      if (!m || d < m.d || d === m.d && e < m.e) m = { o: o, d: d, e: e };
+    });
+    return m;
+  }
+  function escanear(i) {
+    var c = jogo.cel[i];
+    if (jogo.fim || c.vis) return;
+    c.vis = true; jogo.bat--;
+    var el = $("tab").children[i]; el.classList.add("vis");
+    if (c.bola) {
+      jogo.achadas.push(c.bola);
+      el.classList.add("achou"); el.insertAdjacentHTML("beforeend", '<div class="bola">' + U.esfera(c.bola, 46) + "</div>");
+      $("sinal").innerHTML = '<div class="t" style="color:var(--or2)">Esfera de ' + c.bola + " estrela" + (c.bola > 1 ? "s" : "") + " encontrada!</div><div class='s'>" + (7 - jogo.achadas.length ? "Faltam " + (7 - jogo.achadas.length) + "." : "Todas reunidas!") + "</div>";
+      $("blip").classList.remove("on");
+    }
+    var p = proxima(c);
+    if (!c.bola && p) {
+      var cor = p.d <= 1 ? "#ff4d5e" : p.d === 2 ? "#ff8a00" : p.d === 3 ? "#ffd23f" : "#3b82f6";
+      el.insertAdjacentHTML("beforeend", '<div class="d" style="color:' + cor + '">' + p.d + "</div>");
+      var ang = Math.atan2(p.o.y - c.y, p.o.x - c.x), oct = (Math.round(ang / (Math.PI / 4)) + 8) % 8, r = Math.min(1, p.e / 8) * 128 + 12;
+      var b = $("blip"); b.style.left = (150 + Math.cos(ang) * r) + "px"; b.style.top = (150 + Math.sin(ang) * r) + "px"; b.classList.add("on");
+      $("sinal").innerHTML = '<div class="t">Sinal a ' + p.d + " setor" + (p.d > 1 ? "es" : "") + ", direção " + DIR[oct] + '</div><div class="s">≈ ' + Math.round(p.e * 120).toLocaleString("pt-BR") + " km da sua última varredura</div>";
+    }
+    hud();
+    if (jogo.achadas.length === NB) {
+      jogo.fim = true;
+      $("sobra").textContent = jogo.bat + " varredura" + (jogo.bat === 1 ? "" : "s") + " de sobra";
+      setTimeout(function () { var m = $("mVit"); m.classList.remove("on"); void m.offsetWidth; m.classList.add("on"); }, 600);
+    } else if (jogo.bat <= 0) {
+      jogo.fim = true;
+      jogo.cel.forEach(function (o, k) { if (o.bola && jogo.achadas.indexOf(o.bola) < 0) $("tab").children[k].classList.add("dica"); });
+      $("derT").innerHTML = "Você encontrou " + jogo.achadas.length + " de 7 esferas. As que faltavam estão marcadas no mapa.";
+      setTimeout(function () { $("mDer").classList.add("on"); }, 900);
+    }
+  }
+  var RESP = ["Desejo concedido. De novo, Kuririn?", "Esse desejo está além do meu poder.", "Desejo concedido! Quem fez este relatório está aberto a oportunidades em Dados e BI."];
+  $("tab").addEventListener("click", function (e) { var c = e.target.closest(".cel"); if (c) escanear(+c.dataset.i); });
+  $("mVit").addEventListener("click", function (e) { var b = e.target.closest("[data-d]"); if (b) $("resp").textContent = RESP[+b.dataset.d]; });
+  $("novo").addEventListener("click", novo); $("vitNovo").addEventListener("click", novo); $("derNovo").addEventListener("click", novo);
+  $("mDer").addEventListener("click", function (e) { if (e.target === this) this.classList.remove("on"); });
+  novo();
+})();
+</script>

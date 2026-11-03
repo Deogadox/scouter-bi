@@ -1,0 +1,110 @@
+<style>
+#pipe { left: 16px; top: 60px; width: 1248px; height: 214px; }
+#nos { position: absolute; left: 18px; right: 18px; top: 48px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 34px; }
+.no { position: relative; height: 150px; padding: 12px 14px 12px; border-radius: 16px; background: linear-gradient(180deg, rgba(30, 41, 72, .85), rgba(12, 18, 34, .95)); border: 1px solid var(--line2);
+  animation: fadeUp .5s both; }
+.no .ic { flex: 0 0 auto; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; background: rgba(255, 138, 0, .14); border: 1px solid rgba(255, 138, 0, .35); }
+.no .tt { display: flex; align-items: center; gap: 10px; }
+.no .t { font-size: 15px; font-weight: 900; }
+.no .d { font-size: 11px; color: var(--sub); line-height: 1.45; margin-top: 8px; }
+.no .m { position: absolute; left: 14px; bottom: 12px; font: 700 10px Inter, 'Segoe UI', sans-serif; letter-spacing: .06em; color: var(--or2); }
+.seta { position: absolute; top: 50%; right: -30px; width: 26px; height: 2px; background: linear-gradient(90deg, rgba(255, 138, 0, .2), var(--or)); }
+.seta::after { content: ''; position: absolute; right: -2px; top: -4px; border-left: 7px solid var(--or); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+.seta i { position: absolute; top: -2px; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px var(--or2); animation: corre 1.4s linear infinite; }
+@keyframes corre { from { left: -4px; opacity: 0; } 20% { opacity: 1; } to { left: 24px; opacity: 0; } }
+
+.cx { top: 286px; height: 196px; }
+#c1 { left: 16px; width: 292px; } #c2 { left: 320px; width: 348px; } #c3 { left: 680px; width: 284px; } #c4 { left: 976px; width: 288px; }
+.cx2 { top: 494px; height: 210px; }
+#c5 { left: 16px; width: 404px; } #c6 { left: 432px; width: 404px; } #c7 { left: 848px; width: 416px; }
+.corpo { padding: 2px 16px 0; }
+#donut { display: flex; align-items: center; gap: 16px; }
+#donut .lg div { display: flex; align-items: center; gap: 8px; font-size: 12px; margin: 6px 0; font-weight: 700; }
+#donut .lg i { width: 10px; height: 10px; border-radius: 3px; }
+#donut .lg b { font: 700 16px Rajdhani, 'Segoe UI', sans-serif; margin-left: auto; padding-left: 10px; }
+.it { display: flex; gap: 10px; align-items: center; font-size: 11.5px; line-height: 1.35; color: #d3dbee; margin: 0 0 9px; }
+.it b { color: #fff; }
+.it .q { flex: 0 0 auto; min-width: 30px; height: 22px; padding: 0 6px; border-radius: 7px; display: grid; place-items: center; font: 700 13px Rajdhani, 'Segoe UI', sans-serif; background: rgba(255, 77, 94, .14); color: #ff9aa5; }
+.it code { font-family: Consolas, monospace; font-size: 11px; color: var(--or2); background: rgba(255, 194, 26, .08); padding: 1px 5px; border-radius: 5px; }
+.grande { font-size: 58px; line-height: 1; color: var(--gr); }
+.peq { font-size: 11.5px; color: var(--sub); line-height: 1.45; margin-top: 6px; }
+.form { font: 700 24px Rajdhani, 'Segoe UI', sans-serif; color: #fff; padding: 10px 0 4px; letter-spacing: .02em; }
+.tb { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tb td { padding: 5px 4px; border-bottom: 1px solid var(--line); }
+.tb td:last-child { text-align: right; font: 700 15px Rajdhani, 'Segoe UI', sans-serif; color: var(--or2); }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.stack span { padding: 5px 9px; border-radius: 8px; font-size: 11px; font-weight: 800; background: rgba(148, 163, 209, .08); border: 1px solid var(--line2); }
+.gh { margin-top: 14px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(5, 9, 20, .55); border: 1px solid var(--line); }
+.gh .u { font-size: 13px; font-weight: 800; }
+.gh .s { font-size: 10.5px; color: var(--sub); }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card" id="pipe"><div class="hd"><h3><span class="dot"></span>Do dado bruto ao relatório jogável</h3><span class="aux">pipeline completo, versionado no GitHub</span></div><div id="nos"></div></div>
+  <div class="card cx" id="c1"><div class="hd"><h3><span class="dot"></span>Curadoria</h3><span class="aux" id="c1a"></span></div><div class="corpo" id="donut"></div></div>
+  <div class="card cx" id="c2"><div class="hd"><h3><span class="dot" style="background:var(--rd);box-shadow:0 0 10px var(--rd)"></span>Dados sujos tratados</h3></div><div class="corpo" id="sujos"></div></div>
+  <div class="card cx" id="c3"><div class="hd"><h3><span class="dot" style="background:var(--gr);box-shadow:0 0 10px var(--gr)"></span>O poder prevê o vencedor?</h3></div><div class="corpo" id="acc"></div></div>
+  <div class="card cx" id="c4"><div class="hd"><h3><span class="dot"></span>Chance de vitória</h3></div><div class="corpo" id="chance"></div></div>
+  <div class="card cx2" id="c5"><div class="hd"><h3><span class="dot"></span>Regra das estimativas</h3><span class="aux">quando a obra não dá o número</span></div><div class="corpo" id="regra"></div></div>
+  <div class="card cx2" id="c6"><div class="hd"><h3><span class="dot"></span>Modelo de dados</h3><span class="aux">esquema estrela no SQL Server</span></div><div class="corpo" id="modelo"></div></div>
+  <div class="card cx2" id="c7"><div class="hd"><h3><span class="dot"></span>Stack e código</h3></div><div class="corpo" id="stack"></div></div>
+</div></div>
+
+<script>
+(function () {
+  var D = U.D, M = D.meta || {}, $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Bastidores"));
+  var n = function (v) { return (v || 0).toLocaleString("pt-BR"); };
+
+  var NOS = [
+    ["🛰️", "Dragon Ball API", n(M.nApi) + " personagens, " + n(M.nPl) + " planetas e " + n(M.nTr) + " transformações, extraídos com paginação.", "API REST pública"],
+    ["🐍", "Python", "Extração com retry e um parser que converte “19.84 Septillion” em número.", "requests · pandas · pytest"],
+    ["🗄️", "SQL Server", "Camadas stg → dw. Procedures validam chaves e duplicidade; cada carga vai para o log.", "T-SQL · procedures"],
+    ["⭐", "Modelo estrela", "2 fatos e 4 dimensões: " + n(M.nPod) + " níveis de poder curados e " + n(M.nLut) + " lutas canônicas.", "DAX · TMDL · PBIP"],
+    ["🎮", "Power BI + HTML", "O DAX entrega os dados em JSON e cada página vira um app HTML/JS dentro do relatório.", "HTML Content"]
+  ];
+  $("nos").innerHTML = NOS.map(function (x, i) {
+    return '<div class="no" style="animation-delay:' + i * 90 + 'ms"><div class="tt"><div class="ic">' + x[0] + '</div><div class="t">' + x[1] + '</div></div><div class="d">' + x[2] + '</div><div class="m">' + x[3] + "</div>" +
+      (i < NOS.length - 1 ? '<div class="seta"><i></i></div>' : "") + "</div>";
+  }).join("");
+
+  // donut da curadoria
+  var parts = [["Canônico (na obra)", M.nCan, "#39ff88"], ["Guia oficial", M.nGuia, "#ffc21a"], ["Estimado (regra)", M.nEst, "#8fa3c8"]];
+  var tot = parts.reduce(function (s, p) { return s + (p[1] || 0); }, 0) || 1, a0 = -Math.PI / 2, arcs = "";
+  parts.forEach(function (p) {
+    var a1 = a0 + (p[1] || 0) / tot * Math.PI * 2, R = 52, r = 34, big = a1 - a0 > Math.PI ? 1 : 0;
+    var P = function (a, rr) { return (64 + rr * Math.cos(a)).toFixed(2) + " " + (64 + rr * Math.sin(a)).toFixed(2); };
+    arcs += '<path d="M' + P(a0, R) + " A" + R + " " + R + " 0 " + big + " 1 " + P(a1, R) + " L" + P(a1, r) + " A" + r + " " + r + " 0 " + big + " 0 " + P(a0, r) + ' Z" fill="' + p[2] + '"/>';
+    a0 = a1;
+  });
+  $("c1a").textContent = n(tot) + " leituras";
+  $("donut").innerHTML = '<svg width="128" height="128" viewBox="0 0 128 128">' + arcs + '<text x="64" y="62" text-anchor="middle" font-family="Rajdhani,Segoe UI,sans-serif" font-weight="700" font-size="26" fill="#fff">' + n(tot) +
+    '</text><text x="64" y="78" text-anchor="middle" font-size="9" fill="#9aa6c4" font-weight="700">LEITURAS</text></svg><div class="lg">' +
+    parts.map(function (p) { return '<div><i style="background:' + p[2] + '"></i>' + p[0] + "<b>" + n(p[1]) + "</b></div>"; }).join("") +
+    '<div style="font-size:10.5px;color:#9aa6c4;font-weight:600;margin-top:8px">Todo número tem a origem marcada.</div></div>';
+
+  $("sujos").innerHTML =
+    '<div class="it"><span class="q">' + n(M.kiDesc) + '</span><span>ki <code>unknown</code> → status <b>desconhecido</b></span></div>' +
+    '<div class="it"><span class="q">' + n(M.kiInc) + '</span><span>ki <code>969 Googolplex</code> → <b>incomensurável</b></span></div>' +
+    '<div class="it"><span class="q">1</span><span>typo da API <code>septllion</code> corrigido no parser</span></div>' +
+    '<div class="it"><span class="q">2</span><span>formatos no mesmo campo: <code>60.000.000</code> e <code>19.84 Septillion</code></span></div>';
+
+  var vit = M.nVit || 0, acerto = vit ? (vit - (M.nZeb || 0)) / vit : 0;
+  $("acc").innerHTML = '<div class="grande num">' + Math.round(acerto * 100) + '%</div><div class="peq">Em <b style="color:#fff">' + n(vit - (M.nZeb || 0)) + " de " + n(vit) +
+    "</b> vitórias canônicas, venceu quem tinha mais poder. A única zebra: <b style='color:#fff'>Goku vence Kid Boo com a Genki Dama</b>, energia emprestada que não aparece no scouter.</div>";
+
+  $("chance").innerHTML = '<div class="form">A² ÷ (A² + B²)</div><div class="peq" style="margin-top:0">A e B são os níveis de poder. Quem tem o dobro vence <b style="color:#fff">80%</b> das vezes; quatro vezes mais, <b style="color:#fff">94%</b>.</div>' +
+    '<div class="peq">A Arena roda um motor de batalha calibrado para essa mesma curva: 1.000 lutas simuladas chegam ao mesmo número.</div>';
+
+  $("regra").innerHTML = '<table class="tb"><tr><td>Super Saiyajin (SSJ)</td><td>×50</td></tr><tr><td>Super Saiyajin 2 (SSJ2)</td><td>×100</td></tr><tr><td>Super Saiyajin 3 (SSJ3)</td><td>×400</td></tr><tr><td>Kaioken x2, x3, x4…</td><td>×N</td></tr></table>' +
+    '<div class="peq">Aplicados sobre a base de cada saga, com uma trava: quem vence uma luta canônica precisa ter mais poder.</div>';
+
+  $("modelo").innerHTML = '<table class="tb"><tr><td><b>fato_poder</b> · personagem × saga × forma</td><td>' + n(M.nPod) + '</td></tr><tr><td><b>fato_luta</b> · luta canônica</td><td>' + n(M.nLut) +
+    '</td></tr><tr><td><b>dim_personagem</b> · API + extras curados</td><td>' + n((M.nApi || 0) + (M.nExtra || 0)) + '</td></tr><tr><td><b>dim_saga</b> · ' + n(M.nSagas) + ' sagas do Z</td><td>291 ep.</td></tr></table>' +
+    '<div class="peq">Os ' + n(M.nExtra) + " personagens que faltam na API (Nappa, Forças Ginyu, Chaos) entram pela curadoria.</div>";
+
+  $("stack").innerHTML = '<div class="stack">' + ["Python", "pandas", "pytest", "SQL Server", "T-SQL", "Power BI", "DAX", "TMDL / PBIP", "HTML · CSS · JS", "Git"].map(function (s) { return "<span>" + s + "</span>"; }).join("") + "</div>" +
+    '<div class="gh"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>' +
+    '<div><div class="u">github.com/Deogadox/scouter-bi</div><div class="s">Felipe Rios Miranda · Engenharia de Dados e BI</div></div></div>';
+})();
+</script>

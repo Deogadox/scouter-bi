@@ -1,0 +1,176 @@
+<style>
+#graf { left: 16px; top: 60px; width: 848px; height: 644px; }
+#fatos { display: flex; gap: 10px; padding: 0 16px; }
+.fato { flex: 1; padding: 10px 14px; border-radius: 13px; background: rgba(5, 9, 20, .5); border: 1px solid var(--line); }
+.fato .k { font-size: 9px; font-weight: 800; letter-spacing: .16em; color: var(--mut); text-transform: uppercase; }
+.fato .v { font-size: 26px; line-height: 1.1; margin-top: 2px; }
+.fato .o { font-size: 10.5px; color: var(--sub); }
+#tracos { position: absolute; right: 16px; top: 12px; display: flex; gap: 6px; align-items: center; }
+#tracos .lbl { font-size: 9.5px; color: var(--mut); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-right: 4px; }
+#tracos .chip { padding: 4px 10px 4px 8px; display: inline-flex; align-items: center; gap: 6px; }
+#tracos .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+#tracos .chip.on { background: rgba(255, 255, 255, .1); border-color: var(--c); color: #fff; }
+#svgG { position: absolute; left: 0; top: 128px; }
+#svgG .pt { cursor: pointer; }
+#svgG .pt:hover .rg { stroke-width: 3; }
+.desenhar { stroke-dasharray: 3000; stroke-dashoffset: 3000; animation: dese 1.6s ease forwards; }
+@keyframes dese { to { stroke-dashoffset: 0; } }
+
+#painel { left: 876px; top: 60px; width: 388px; height: 644px; display: flex; flex-direction: column; }
+#pTopo { padding: 0 18px; }
+#pNome { font-size: 34px; line-height: 1; }
+#pPills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+#campeao { position: relative; margin: 12px 16px 0; height: 186px; border-radius: 16px; overflow: hidden; background: rgba(5, 9, 20, .55); border: 1px solid var(--line); }
+#campeao .glow { position: absolute; left: -40px; top: -20px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, var(--aura), transparent 65%); opacity: .55; }
+#campeao .ret { position: absolute; left: 8px; top: 8px; bottom: 0; width: 140px; }
+#campeao .ret img, #campeao .ret svg { height: 100%; }
+#campeao .inf { position: absolute; left: 156px; right: 14px; top: 16px; }
+#campeao .k { font-size: 9px; font-weight: 800; letter-spacing: .18em; color: var(--or2); }
+#campeao .n { font-size: 30px; line-height: 1; margin-top: 4px; }
+#campeao .f { font-size: 11px; color: var(--sub); margin-top: 3px; font-weight: 700; }
+#campeao .v { font-size: 34px; color: #fff; margin-top: 10px; line-height: 1; }
+#campeao .sal { font-size: 10.5px; color: var(--gr); margin-top: 6px; font-weight: 700; }
+#rank { flex: 1; margin: 10px 8px 12px 16px; }
+.rk { display: grid; grid-template-columns: 18px 30px 1fr 64px; align-items: center; gap: 8px; height: 38px; border-bottom: 1px solid var(--line); animation: fadeUp .3s both; }
+.rk .p { font: 700 13px Rajdhani, 'Segoe UI', sans-serif; color: var(--mut); text-align: center; }
+.rk .av { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: rgba(5, 9, 20, .7); border: 1px solid var(--line2); position: relative; }
+.rk .av .ret { position: absolute; inset: 0; align-items: flex-start; }
+.rk .av img, .rk .av svg { height: 300%; }
+.rk .n { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rk .b { height: 5px; border-radius: 4px; background: rgba(148, 163, 209, .1); margin-top: 4px; overflow: hidden; }
+.rk .b i { display: block; height: 100%; border-radius: 4px; }
+.rk .v { font: 700 14px Rajdhani, 'Segoe UI', sans-serif; text-align: right; }
+.vazio { padding: 26px 18px; color: var(--sub); font-size: 12.5px; text-align: center; line-height: 1.5; }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card" id="graf">
+    <div class="hd"><h3><span class="dot"></span>O teto de poder em cada saga</h3></div>
+    <div id="tracos"></div>
+    <div id="fatos"></div>
+    <svg id="svgG" width="848" height="508"></svg>
+  </div>
+  <div class="card" id="painel">
+    <div class="hd"><h3><span class="dot"></span>Saga selecionada</h3><span class="aux">clique num ponto do gráfico</span></div>
+    <div id="pTopo"><div id="pNome" class="tit"></div><div id="pPills"></div></div>
+    <div id="campeao"></div>
+    <div class="scroll" id="rank"></div>
+  </div>
+</div></div>
+
+<script>
+(function () {
+  var D = U.D, $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Escalada"));
+  var tip = U.tip(app);
+  var TRACOS = [["Goku", "#ff8a00"], ["Vegeta", "#3b82f6"], ["Gohan", "#a78bfa"], ["Piccolo", "#39ff88"], ["Freezer", "#ff5cc8"], ["Trunks", "#22d3ee"]];
+  var ativos = { "Goku": true }, sel = null;
+
+  // pico de cada personagem em cada saga
+  function picos(s) {
+    var m = {};
+    D.pod.forEach(function (r) { if (r.s === s && (!m[r.p] || r.v > m[r.p].v)) m[r.p] = r; });
+    return Object.keys(m).map(function (k) { return m[k]; }).sort(function (a, b) { return b.v - a.v; });
+  }
+  var tetos = D.sagas.map(function (s) { var ps = picos(s.o); return { s: s, top: ps[0] || null, n: ps.length }; });
+  var comDado = tetos.filter(function (t) { return t.top; });
+
+  /* ---------- fatos calculados */
+  (function () {
+    var a = comDado[0], z = comDado.reduce(function (m, t) { return t.top.v > m.top.v ? t : m; });
+    var maiorSalto = null;
+    for (var i = 1; i < comDado.length; i++) {
+      var k = comDado[i].top.v / comDado[i - 1].top.v;
+      if (!maiorSalto || k > maiorSalto.k) maiorSalto = { k: k, de: comDado[i - 1], para: comDado[i] };
+    }
+    $("fatos").innerHTML =
+      '<div class="fato"><div class="k">Teto inicial</div><div class="v num">' + U.fmt(a.top.v) + '</div><div class="o">' + U.esc(U.nome(D.perById[a.top.p])) + " · " + U.esc(a.top.f) + " · " + U.esc(U.sagaCurta(a.s.o)) + "</div></div>" +
+      '<div class="fato"><div class="k">Teto máximo</div><div class="v num" style="color:var(--or2)">' + U.fmt(z.top.v) + '</div><div class="o">' + U.esc(U.nome(D.perById[z.top.p])) + " · " + U.esc(z.top.f) + " · " + U.esc(U.sagaCurta(z.s.o)) + "</div></div>" +
+      '<div class="fato"><div class="k">Crescimento total</div><div class="v num" style="color:var(--gr)">×' + Math.round(z.top.v / a.top.v).toLocaleString("pt-BR") + '</div><div class="o">do primeiro ao maior teto</div></div>' +
+      '<div class="fato"><div class="k">Maior salto</div><div class="v num">×' + Math.round(maiorSalto.k).toLocaleString("pt-BR") + '</div><div class="o">' + U.esc(U.sagaCurta(maiorSalto.de.s.o)) + " → " + U.esc(U.sagaCurta(maiorSalto.para.s.o)) + "</div></div>";
+  })();
+
+  /* ---------- traços */
+  $("tracos").innerHTML = '<span class="lbl">Trajetórias</span>' + TRACOS.map(function (t) {
+    var p = U.porNome(t[0]); return p ? '<button class="chip' + (ativos[t[0]] ? " on" : "") + '" data-n="' + t[0] + '" style="--c:' + t[1] + '"><i></i>' + U.esc(U.nome(p)) + "</button>" : "";
+  }).join("");
+  $("tracos").addEventListener("click", function (e) { var c = e.target.closest(".chip"); if (!c) return; ativos[c.dataset.n] = !ativos[c.dataset.n]; c.classList.toggle("on"); grafico(); });
+
+  /* ---------- gráfico */
+  var W = 848, H = 508, ml = 70, mr = 36, mt = 24, mb = 74, lo = 3, hi = 11;
+  function X(o) { return ml + (o - 1) * (W - ml - mr) / (D.sagas.length - 1); }
+  function Y(v) { return mt + (hi - Math.log10(v)) / (hi - lo) * (H - mt - mb); }
+  var cid = 0;
+  function grafico() {
+    var g = "", svg = $("svgG");
+    for (var e = lo; e <= hi; e++) {
+      var y = Y(Math.pow(10, e));
+      g += '<line x1="' + ml + '" x2="' + (W - mr) + '" y1="' + y + '" y2="' + y + '" stroke="rgba(148,163,209,' + (e % 3 === 0 ? .2 : .08) + ')"/>' +
+        '<text x="' + (ml - 10) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#64708f" font-family="Rajdhani,Segoe UI,sans-serif" font-weight="700">' + U.fmt(Math.pow(10, e)) + "</text>";
+    }
+    tetos.forEach(function (t) {
+      var x = X(t.s.o), sem = !t.top;
+      g += '<text x="' + x + '" y="' + (H - mb + 26) + '" text-anchor="end" transform="rotate(-38 ' + x + " " + (H - mb + 26) + ')" font-size="10.5" font-weight="' + (sel === t.s.o ? 800 : 600) + '" fill="' + (sel === t.s.o ? "#ffd8a8" : sem ? "#3f4864" : "#8a96b5") + '">' + U.esc(U.sagaCurta(t.s.o)) + "</text>";
+      if (sem) g += '<line x1="' + x + '" x2="' + x + '" y1="' + mt + '" y2="' + (H - mb) + '" stroke="rgba(148,163,209,.10)" stroke-dasharray="3 5"/>';
+    });
+    // traços dos personagens
+    TRACOS.forEach(function (t) {
+      if (!ativos[t[0]]) return;
+      var p = U.porNome(t[0]); if (!p) return;
+      var pts = p.sagas.map(function (s) { var r = picos(s).filter(function (x) { return x.p === p.id; })[0]; return [X(s), Y(r.v)]; });
+      if (pts.length < 2) return;
+      g += '<path class="desenhar" d="' + pts.map(function (q, i) { return (i ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1); }).join("") + '" fill="none" stroke="' + t[1] + '" stroke-width="2" stroke-opacity=".75" stroke-dasharray="6 4"/>' +
+        pts.map(function (q) { return '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="3" fill="' + t[1] + '"/>'; }).join("");
+    });
+    // teto
+    var lin = comDado.map(function (t, i) { return (i ? "L" : "M") + X(t.s.o).toFixed(1) + " " + Y(t.top.v).toFixed(1); }).join("");
+    var area = lin + "L" + X(comDado[comDado.length - 1].s.o) + " " + (H - mb) + "L" + X(comDado[0].s.o) + " " + (H - mb) + "Z";
+    g += '<path d="' + area + '" fill="url(#ag)"/><path class="desenhar" d="' + lin + '" fill="none" stroke="url(#lg)" stroke-width="3.2" stroke-linejoin="round"/>';
+    comDado.forEach(function (t) {
+      var x = X(t.s.o), y = Y(t.top.v), p = D.perById[t.top.p], c = U.aura(t.top.f), on = sel === t.s.o, r = on ? 23 : 18, id = "cp" + (++cid);
+      var img = t.top.fi || p.img;
+      g += '<g class="pt" data-o="' + t.s.o + '">' + (on ? '<circle cx="' + x + '" cy="' + y + '" r="' + (r + 9) + '" fill="' + c + '" opacity=".22"/>' : "") +
+        '<clipPath id="' + id + '"><circle cx="' + x + '" cy="' + y + '" r="' + r + '"/></clipPath><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="#101830"/>' +
+        (img ? '<image href="' + U.esc(img) + '" x="' + (x - r * 1.1) + '" y="' + (y - r) + '" width="' + r * 2.2 + '" height="' + r * 5 + '" preserveAspectRatio="xMidYMin slice" clip-path="url(#' + id + ')"/>' :
+          '<text x="' + x + '" y="' + (y + 5) + '" text-anchor="middle" font-family="Bangers,Impact" font-size="15" fill="' + c + '">' + U.esc(U.iniciais(U.nome(p))) + "</text>") +
+        '<circle class="rg" cx="' + x + '" cy="' + y + '" r="' + r + '" fill="none" stroke="' + c + '" stroke-width="' + (on ? 3 : 2) + '"/></g>';
+    });
+    svg.innerHTML = '<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8a00" stop-opacity=".28"/><stop offset="1" stop-color="#ff8a00" stop-opacity="0"/></linearGradient>' +
+      '<linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a00"/><stop offset="1" stop-color="#ffe066"/></linearGradient></defs>' + g;
+    [].forEach.call(svg.querySelectorAll(".pt"), function (el) {
+      var t = tetos[+el.dataset.o - 1];
+      el.addEventListener("mousemove", function (ev) {
+        var m = U.pos(ev); tip.mostrar("<b>" + U.esc(t.s.n) + "</b><br>Mais forte: " + U.esc(U.nome(D.perById[t.top.p])) + " (" + U.esc(t.top.f) + ")<br>" + U.fmtFull(t.top.v), m.x, m.y);
+      });
+      el.addEventListener("mouseleave", tip.esconder);
+      el.addEventListener("click", function () { tip.esconder(); selecionar(t.s.o); });
+    });
+  }
+
+  /* ---------- painel */
+  function selecionar(o) {
+    sel = o; grafico();
+    var t = tetos[o - 1], s = t.s;
+    $("pNome").textContent = s.n;
+    $("pPills").innerHTML = '<span class="pill">Arco ' + U.esc(s.a) + '</span><span class="pill">Episódios ' + s.e1 + "–" + s.e2 + "</span>" + (s.f ? '<span class="pill" style="color:#ffd8a8">filler</span>' : "");
+    if (!t.top) {
+      $("campeao").innerHTML = '<div class="vazio">Sem leituras curadas nesta saga.<br>A curadoria ainda vai cobrir ' + (s.f ? "este arco filler" : "esta saga") + ".</div>";
+      $("rank").innerHTML = ""; return;
+    }
+    var p = D.perById[t.top.p], c = U.aura(t.top.f), ant = null;
+    for (var i = o - 2; i >= 0; i--) if (tetos[i].top) { ant = tetos[i]; break; }
+    $("campeao").style.setProperty("--aura", c);
+    $("campeao").innerHTML = '<div class="glow"></div><div class="ret">' + U.retrato(p, t.top.fi || p.img, c) + '</div><div class="inf"><div class="k">MAIS FORTE DA SAGA</div><div class="n tit">' + U.esc(U.nome(p)) +
+      '</div><div class="f">' + U.esc(t.top.f) + ' · <span class="src ' + t.top.src + '" style="font-size:8px">' + U.srcNome(t.top.src) + '</span></div><div class="v num">' + U.fmt(t.top.v) + "</div>" +
+      (ant ? '<div class="sal">' + (t.top.v >= ant.top.v ? "▲ ×" + (t.top.v / ant.top.v).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) : "▼ ×" + (t.top.v / ant.top.v).toLocaleString("pt-BR", { maximumFractionDigits: 2 })) + " vs " + U.esc(U.sagaCurta(ant.s.o)) + "</div>" : '<div class="sal">primeira saga com leitura</div>') + "</div>";
+    var ps = picos(o), mx = Math.log10(ps[0].v);
+    $("rank").innerHTML = ps.map(function (r, i) {
+      var q = D.perById[r.p], cc = U.aura(r.f);
+      return '<div class="rk" style="animation-delay:' + i * 40 + 'ms"><span class="p">' + (i + 1) + '</span><span class="av"><span class="ret">' + U.retrato(q, "", cc) + '</span></span><div style="min-width:0"><div class="n">' + U.esc(U.nome(q)) +
+        ' <span style="color:#64708f;font-weight:600;font-size:10.5px">' + U.esc(r.f) + '</span></div><div class="b"><i style="width:' + Math.max(4, Math.log10(r.v) / mx * 100) + "%;background:" + cc + '"></i></div></div><span class="v">' + U.fmt(r.v) + "</span></div>";
+    }).join("");
+  }
+
+  selecionar(comDado.reduce(function (m, t) { return t.top.v > m.top.v ? t : m; }).s.o);
+})();
+</script>

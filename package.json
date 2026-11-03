@@ -1,0 +1,11 @@
+{
+  "name": "scouter-bi",
+  "private": true,
+  "description": "Build das páginas HTML do relatório (minificação) e das medidas TMDL/PBIR",
+  "scripts": {
+    "build": "python scripts/gerar_html.py && python scripts/gerar_pbi.py"
+  },
+  "devDependencies": {
+    "html-minifier-terser": "7.2.0"
+  }
+}

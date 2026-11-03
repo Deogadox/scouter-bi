@@ -1,0 +1,430 @@
+<style>
+/* ---------- seleção */
+.lado { top: 60px; width: 292px; height: 560px; display: flex; flex-direction: column; }
+#ladoA { left: 16px; } #ladoB { left: 972px; }
+.lado.ativo { box-shadow: 0 0 0 2px var(--cor), 0 14px 34px rgba(0, 0, 0, .4); }
+.lado .hd h3 .dot { background: var(--cor); box-shadow: 0 0 10px var(--cor); }
+#ladoA { --cor: var(--or); } #ladoB { --cor: var(--bl2); }
+.lado .pal { position: relative; height: 262px; margin: 0 14px; border-radius: 14px; overflow: hidden;
+  background: radial-gradient(220px 200px at 50% 60%, var(--aura, rgba(127, 178, 255, .5)), transparent 70%), rgba(5, 9, 20, .55); border: 1px solid var(--line); }
+.lado .pal .ret { position: absolute; inset: 8px 0 0; }
+.lado .pal .ret img, .lado .pal .ret svg { height: 100%; animation: fadeUp .35s both; }
+#ladoB .pal .ret img, #ladoB .pal .ret svg { transform: scaleX(-1); }
+.lado .vaz { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; color: var(--mut); font-size: 12px; font-weight: 700; }
+.lado .vaz b { display: block; font-size: 34px; color: var(--line2); margin-bottom: 4px; }
+.lado .nm { margin: 10px 16px 0; font-size: 30px; line-height: 1; }
+.lado .pw { margin: 4px 16px 0; font-size: 20px; color: var(--cor); }
+.lado .ops { flex: 1; margin: 8px 10px 12px 14px; }
+.op { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 6px 9px; border-radius: 9px; font-size: 11px; cursor: pointer; border: 1px solid transparent; }
+.op:hover { background: rgba(148, 163, 209, .07); }
+.op.on { background: rgba(148, 163, 209, .1); border-color: var(--cor); }
+.op .sg { color: var(--sub); font-weight: 600; }
+.op .fm { font-weight: 800; }
+.op .v { font-family: Rajdhani, 'Segoe UI', sans-serif; font-weight: 700; font-size: 13px; color: #fff; }
+
+#centro { left: 320px; top: 60px; width: 640px; height: 560px; display: flex; flex-direction: column; }
+#centro .ctl { display: flex; gap: 10px; padding: 0 14px 10px; align-items: center; }
+#centro .search { flex: 1; }
+.alvo { display: flex; gap: 6px; }
+.alvo .chip.a.on { background: var(--or); border-color: var(--or); }
+.alvo .chip.b.on { background: var(--bl2); border-color: var(--bl2); color: #06101f; }
+#gradeA { flex: 1; padding: 2px 10px 14px 14px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; align-content: start; }
+.tl { position: relative; height: 104px; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(32, 44, 78, .92), rgba(13, 19, 36, .96)); transition: transform .12s, border-color .12s; }
+.tl:hover { transform: translateY(-2px); border-color: var(--line2); }
+.tl.sa { border-color: var(--or); box-shadow: 0 0 0 1px var(--or); }
+.tl.sb { border-color: var(--bl2); box-shadow: 0 0 0 1px var(--bl2); }
+.tl.sa.sb { border-image: linear-gradient(90deg, var(--or), var(--bl2)) 1; }
+.tl .ret { position: absolute; left: 0; right: 0; top: 4px; bottom: 26px; align-items: flex-start; }
+.tl .ret img, .tl .ret svg { height: 240%; }
+.tl .fx { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: linear-gradient(0deg, rgba(8, 12, 24, .97), transparent); }
+.tl .nm { position: absolute; left: 4px; right: 4px; bottom: 15px; text-align: center; font-size: 10px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl .pk { position: absolute; left: 0; right: 0; bottom: 3px; text-align: center; font: 700 10px Rajdhani, 'Segoe UI', sans-serif; color: var(--or2); }
+.tl .tag { position: absolute; top: 5px; padding: 1px 5px; border-radius: 5px; font-size: 8.5px; font-weight: 900; }
+.tl .tag.a { left: 5px; background: var(--or); color: #1a1205; } .tl .tag.b { right: 5px; background: var(--bl2); color: #06101f; }
+
+#barra { left: 16px; top: 632px; width: 1248px; height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 16px; }
+#odds { flex: 1; }
+#odds .nomes { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; margin-bottom: 6px; }
+#odds .nomes .a { color: var(--or); } #odds .nomes .b { color: var(--bl2); }
+#odds .tr { height: 12px; border-radius: 8px; background: var(--bl); overflow: hidden; position: relative; }
+#odds .tr i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #ff7a00, #ffb02e); border-radius: 8px 0 0 8px; transition: width .6s cubic-bezier(.2, .8, .2, 1); }
+#odds .lg { font-size: 9.5px; color: var(--mut); margin-top: 5px; text-align: center; letter-spacing: .04em; }
+#btnLutar { height: 48px; padding: 0 30px; font-size: 18px; font-family: Bangers, Impact, sans-serif; letter-spacing: 1.5px; border-radius: 14px; }
+
+/* ---------- batalha */
+#arena { position: absolute; left: 16px; top: 60px; width: 1248px; height: 644px; border-radius: 20px; overflow: hidden; display: none; border: 1px solid var(--line2);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5); }
+#arena.on { display: block; }
+#app.batalha .lado, #app.batalha #centro, #app.batalha #barra { visibility: hidden; }
+#ceu { position: absolute; inset: 0; }
+#ceu svg { position: absolute; left: 0; bottom: 96px; width: 100%; height: 230px; }
+#chao { position: absolute; left: 0; right: 0; bottom: 0; height: 104px; }
+.cen-terra #ceu { background: linear-gradient(180deg, #172b52 0%, #3d5a8a 38%, #e59a5c 78%, #f7c27e 100%); }
+.cen-terra #chao { background: linear-gradient(180deg, #8a5a36, #4b2f1d); }
+.cen-namek #ceu { background: linear-gradient(180deg, #0f4a3a 0%, #2f8f66 45%, #9be0a8 100%); }
+.cen-namek #chao { background: linear-gradient(180deg, #3aa7a0, #155d58); }
+.cen-cell #ceu { background: linear-gradient(180deg, #1b2a47 0%, #4d77b3 45%, #cfe3f5 100%); }
+.cen-cell #chao { background: linear-gradient(180deg, #d9d2c3, #8f8676); }
+.cen-buu #ceu { background: linear-gradient(180deg, #1c0b3a 0%, #5a2a85 45%, #e07bb5 100%); }
+.cen-buu #chao { background: linear-gradient(180deg, #6b4a7d, #2c1c3b); }
+#arena::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(1200px 500px at 50% 110%, rgba(0, 0, 0, .55), transparent 60%), linear-gradient(180deg, rgba(0, 0, 0, .25), transparent 25%); }
+
+.hud { position: absolute; top: 14px; width: 420px; z-index: 6; padding: 10px 14px; border-radius: 14px; background: rgba(6, 10, 22, .72); border: 1px solid rgba(255, 255, 255, .1); backdrop-filter: blur(4px); }
+#hudA { left: 14px; } #hudB { right: 14px; text-align: right; }
+.hud .n { font-size: 26px; line-height: 1; }
+.hud .s { font-size: 10.5px; color: #c7d0e6; margin-top: 3px; font-weight: 600; }
+.hud .hp { position: relative; height: 14px; border-radius: 8px; background: rgba(255, 255, 255, .1); overflow: hidden; margin-top: 8px; }
+.hud .hp .rast { position: absolute; top: 0; bottom: 0; background: #ffd5d9; transition: width .9s ease .35s; }
+.hud .hp .vida { position: absolute; top: 0; bottom: 0; transition: width .45s ease, background .3s; }
+#hudA .hp .rast, #hudA .hp .vida { left: 0; } #hudB .hp .rast, #hudB .hp .vida { right: 0; }
+.hud .hpt { display: flex; justify-content: space-between; font: 700 11px Rajdhani, 'Segoe UI', sans-serif; color: #aeb8d3; margin-top: 3px; }
+#hudB .hpt { flex-direction: row-reverse; }
+#turno { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); z-index: 6; text-align: center; }
+#turno .t { font: 700 11px Rajdhani, 'Segoe UI', sans-serif; letter-spacing: .3em; color: #dfe6f5; }
+#turno .vs { font-family: Bangers, Impact, sans-serif; font-size: 46px; line-height: 1; color: #fff; text-shadow: 0 0 18px rgba(255, 138, 0, .7), 0 3px 0 rgba(0, 0, 0, .5); }
+
+.luta { position: absolute; bottom: 92px; width: 280px; height: 340px; z-index: 4; transition: transform .18s ease-out; }
+#luA { left: 110px; } #luB { right: 110px; }
+.luta .aur { position: absolute; left: 50%; bottom: 0; width: 230px; height: 330px; margin-left: -115px; border-radius: 50% 50% 46% 46%;
+  background: radial-gradient(ellipse at 50% 60%, var(--aura) 0%, transparent 68%); opacity: .7; animation: pulse 1.1s ease-in-out infinite; filter: blur(3px); }
+.luta .ret { position: absolute; inset: 0; }
+.luta .ret img, .luta .ret svg { height: 100%; }
+#luB .ret img, #luB .ret svg { transform: scaleX(-1); }
+.luta.hit { animation: shake .45s; }
+.luta.hit .ret { filter: brightness(2.2) saturate(.3); transition: filter .05s; }
+.luta.ko { transform: translateY(40px) rotate(-12deg); opacity: .35; transition: all .7s; }
+#luB.ko { transform: translateY(40px) rotate(12deg); }
+.luta .sombra { position: absolute; left: 50%; bottom: -10px; width: 200px; height: 24px; margin-left: -100px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, .55), transparent); }
+
+#raio { position: absolute; z-index: 5; height: 22px; top: 392px; border-radius: 14px; opacity: 0; pointer-events: none; }
+#raio::after { content: ''; position: absolute; inset: 6px 0; border-radius: 10px; background: #fff; filter: blur(2px); opacity: .85; }
+#impacto { position: absolute; z-index: 6; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; top: 403px; opacity: 0; pointer-events: none;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 240, 200, .9) 25%, rgba(255, 170, 60, .4) 55%, transparent 70%); }
+.dano { position: absolute; z-index: 8; font-family: Bangers, Impact, sans-serif; font-size: 38px; color: #fff; pointer-events: none; text-shadow: 0 3px 0 #000, 0 0 14px rgba(255, 77, 94, .9);
+  animation: subir 1.2s ease-out forwards; }
+.dano.crit { color: #ffd23f; font-size: 48px; }
+.dano.esq { color: #9fd0ff; font-size: 30px; text-shadow: 0 3px 0 #000; }
+@keyframes subir { 0% { transform: translateY(0) scale(.6); opacity: 0; } 15% { transform: translateY(-14px) scale(1.15); opacity: 1; } 100% { transform: translateY(-90px) scale(1); opacity: 0; } }
+#banner { position: absolute; left: 0; right: 0; top: 230px; z-index: 9; text-align: center; font-family: Bangers, Impact, sans-serif; font-size: 64px; color: #fff; letter-spacing: 3px;
+  text-shadow: 0 0 30px var(--bc, #ffc21a), 0 4px 0 #000; opacity: 0; pointer-events: none; }
+#banner.on { animation: bann 1.3s ease both; }
+@keyframes bann { 0% { opacity: 0; transform: scale(1.6); } 20% { opacity: 1; transform: scale(1); } 75% { opacity: 1; } 100% { opacity: 0; transform: scale(.95); } }
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 7; pointer-events: none; }
+#flash.on { animation: fl .35s ease; }
+@keyframes fl { 0% { opacity: .7; } 100% { opacity: 0; } }
+
+#log { position: absolute; left: 404px; right: 404px; bottom: 14px; height: 116px; z-index: 6; padding: 10px 14px; border-radius: 14px; background: rgba(6, 10, 22, .78); border: 1px solid rgba(255, 255, 255, .1); overflow: hidden; }
+#log .t { font-size: 9px; font-weight: 800; letter-spacing: .2em; color: var(--sub); margin-bottom: 4px; }
+#log .ln { font-size: 11.5px; line-height: 1.65; color: #d7deef; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: fadeUp .3s both; }
+#log .ln b.a { color: var(--or2); } #log .ln b.b { color: #9fc5ff; } #log .ln .d { color: #ff9aa5; font-weight: 800; } #log .ln .c { color: #ffd23f; font-weight: 900; }
+.ctlL, .ctlR { position: absolute; bottom: 22px; z-index: 6; display: flex; gap: 8px; }
+.ctlL { left: 18px; } .ctlR { right: 18px; }
+.ctlL .btn, .ctlR .btn { background: rgba(6, 10, 22, .78); border-color: rgba(255, 255, 255, .16); height: 40px; }
+.ctlL .btn.pri { background: linear-gradient(180deg, #ffb02e, #ff7a00); color: #1a1205; }
+.ctlL .btn.on { background: rgba(255, 138, 0, .3); border-color: var(--or); }
+
+.modal { position: absolute; inset: 0; z-index: 20; display: none; place-items: center; background: rgba(4, 7, 15, .7); backdrop-filter: blur(3px); }
+.modal.on { display: grid; animation: fadeUp .3s both; }
+.modal .box { width: 560px; padding: 26px 30px; border-radius: 20px; background: linear-gradient(180deg, rgba(25, 34, 60, .98), rgba(12, 17, 32, .98)); border: 1px solid var(--line2);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6); text-align: center; }
+.modal .ko { font-family: Bangers, Impact, sans-serif; font-size: 74px; line-height: .9; background: linear-gradient(180deg, #ffe08a, #ff7a00); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 0 rgba(0, 0, 0, .5)); }
+.modal .vv { font-family: Bangers, Impact, sans-serif; font-size: 34px; letter-spacing: 1px; margin-top: 6px; }
+.modal .sb { font-size: 12px; color: var(--sub); margin-top: 6px; }
+.modal .grd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0; }
+.modal .grd div { padding: 10px; border-radius: 12px; background: rgba(5, 9, 20, .55); border: 1px solid var(--line); }
+.modal .grd b { display: block; font: 700 22px Rajdhani, 'Segoe UI', sans-serif; color: #fff; }
+.modal .grd span { font-size: 9px; letter-spacing: .14em; color: var(--mut); font-weight: 800; text-transform: uppercase; }
+.modal .acts { display: flex; gap: 10px; justify-content: center; }
+.sim .tr { height: 26px; border-radius: 14px; background: var(--bl); overflow: hidden; position: relative; margin: 14px 0 6px; }
+.sim .tr i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #ff7a00, #ffb02e); transition: width 1.2s cubic-bezier(.2, .8, .2, 1); }
+.sim .lin { display: flex; justify-content: space-between; font-weight: 800; font-size: 13px; }
+</style>
+
+<div id="stage"><div id="app">
+  <div class="card lado ativo" id="ladoA"><div class="hd"><h3><span class="dot"></span>Lutador A</h3><span class="aux" id="auxA"></span></div>
+    <div class="pal"><div class="ret"></div><div class="vaz"><div><b>+</b>Escolha um guerreiro</div></div></div>
+    <div class="nm tit"></div><div class="pw num"></div><div class="ops scroll"></div></div>
+  <div class="card lado" id="ladoB"><div class="hd"><h3><span class="dot"></span>Lutador B</h3><span class="aux" id="auxB"></span></div>
+    <div class="pal"><div class="ret"></div><div class="vaz"><div><b>+</b>Escolha um guerreiro</div></div></div>
+    <div class="nm tit"></div><div class="pw num"></div><div class="ops scroll"></div></div>
+
+  <div class="card" id="centro">
+    <div class="hd"><h3><span class="dot"></span>Escolha os lutadores</h3><span class="aux">clique num guerreiro · depois escolha saga e forma</span></div>
+    <div class="ctl">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="buscaA" placeholder="Buscar guerreiro..." autocomplete="off"></div>
+      <div class="alvo"><button class="chip a on" data-l="0">Lado A</button><button class="chip b" data-l="1">Lado B</button></div>
+    </div>
+    <div class="scroll" id="gradeA"></div>
+  </div>
+
+  <div class="card" id="barra">
+    <div id="odds"><div class="nomes"><span class="a" id="oA">A</span><span class="b" id="oB">B</span></div><div class="tr"><i id="oBar" style="width:50%"></i></div><div class="lg">chance pelo modelo do projeto: A² ÷ (A² + B²), em que A e B são os níveis de poder</div></div>
+    <button class="btn" id="btnSortear">🎲 Sortear</button>
+    <button class="btn pri" id="btnLutar">⚔ LUTAR!</button>
+  </div>
+
+  <div id="arena">
+    <div id="ceu"><svg viewBox="0 0 1248 230" preserveAspectRatio="none"><path id="mont1" fill="rgba(0,0,0,.18)"/><path id="mont2" fill="rgba(0,0,0,.3)"/></svg></div>
+    <div id="chao"></div>
+    <div class="hud" id="hudA"><div class="n tit"></div><div class="s"></div><div class="hp"><div class="rast"></div><div class="vida"></div></div><div class="hpt"><span class="hv"></span><span class="pw"></span></div></div>
+    <div class="hud" id="hudB"><div class="n tit"></div><div class="s"></div><div class="hp"><div class="rast"></div><div class="vida"></div></div><div class="hpt"><span class="hv"></span><span class="pw"></span></div></div>
+    <div id="turno"><div class="t" id="turnoT">TURNO 1</div><div class="vs">VS</div></div>
+    <div class="luta" id="luA"><div class="sombra"></div><div class="aur"></div><div class="ret"></div></div>
+    <div class="luta" id="luB"><div class="sombra"></div><div class="aur"></div><div class="ret"></div></div>
+    <div id="raio"></div><div id="impacto"></div><div id="banner"></div><div id="flash"></div>
+    <div id="log"><div class="t">REGISTRO DA LUTA</div><div id="logL"></div></div>
+    <div class="ctlL"><button class="btn pri" id="bProx">▶ Próximo golpe</button><button class="btn" id="bAuto">⏩ Automático</button><button class="btn" id="bVel">1×</button></div>
+    <div class="ctlR"><button class="btn" id="bSim">🎲 Simular ×1000</button><button class="btn" id="bRev">↺ Revanche</button><button class="btn" id="bSair">✕ Trocar</button></div>
+    <div class="modal" id="mFim"><div class="box"><div class="ko">K.O.!</div><div class="vv" id="fimV"></div><div class="sb" id="fimS"></div>
+      <div class="grd" id="fimG"></div><div class="acts"><button class="btn pri" id="fRev">↺ Revanche</button><button class="btn" id="fSim">🎲 Simular ×1000</button><button class="btn" id="fSair">✕ Trocar lutadores</button></div></div></div>
+    <div class="modal sim" id="mSim"><div class="box"><div class="vv" style="margin:0">1.000 LUTAS SIMULADAS</div><div class="sb" id="simS">calculando…</div>
+      <div class="tr"><i id="simBar" style="width:50%"></i></div><div class="lin"><span id="simA" style="color:var(--or)"></span><span id="simB" style="color:var(--bl2)"></span></div>
+      <div class="grd" id="simG" style="grid-template-columns:repeat(3,1fr)"></div><div class="acts"><button class="btn pri" id="sOk">Voltar à luta</button></div></div></div>
+  </div>
+</div></div>
+
+<script>
+(function () {
+  var D = U.D, $ = function (id) { return document.getElementById(id); }, app = $("app");
+  app.insertAdjacentHTML("beforeend", U.marca("Arena"));
+  var lados = [null, null], ativo = 0, busca = "";
+
+  function opcoes(p) { return (D.podByPer[p.id] || []).slice().sort(function (a, b) { return a.s - b.s || a.v - b.v; }); }
+  function melhor(p) { return opcoes(p).reduce(function (m, r) { return !m || r.v > m.v ? r : m; }, null); }
+
+  /* ---------- seleção */
+  function grade() {
+    var q = busca.trim().toLowerCase(), h = "";
+    D.perOrdem.forEach(function (p) {
+      if (q && (U.nome(p) + " " + p.n).toLowerCase().indexOf(q) < 0) return;
+      var a = lados[0] && lados[0].p.id === p.id, b = lados[1] && lados[1].p.id === p.id;
+      h += '<div class="tl' + (a ? " sa" : "") + (b ? " sb" : "") + '" data-id="' + p.id + '">' + '<div class="ret">' + U.retrato(p, "", U.aura("")) + "</div>" +
+        '<div class="fx"></div><div class="nm">' + U.esc(U.nome(p)) + '</div><div class="pk">pico ' + U.fmt(p.pico) + "</div>" +
+        (a ? '<span class="tag a">A</span>' : "") + (b ? '<span class="tag b">B</span>' : "") + "</div>";
+    });
+    $("gradeA").innerHTML = h;
+  }
+  function definir(i, p, r) {
+    lados[i] = { p: p, r: r || melhor(p) };
+    ladoUI(i); grade(); odds();
+    if (i === 0 && !lados[1]) alvo(1); else if (i === 1 && !lados[0]) alvo(0);
+  }
+  function alvo(i) {
+    ativo = i;
+    [].forEach.call(document.querySelectorAll(".alvo .chip"), function (c) { c.classList.toggle("on", +c.dataset.l === i); });
+    $("ladoA").classList.toggle("ativo", i === 0); $("ladoB").classList.toggle("ativo", i === 1);
+  }
+  function ladoUI(i) {
+    var el = $(i ? "ladoB" : "ladoA"), L = lados[i];
+    if (!L) return;
+    var cor = U.aura(L.r.f);
+    el.style.setProperty("--aura", cor + "88");
+    el.querySelector(".vaz").style.display = "none";
+    el.querySelector(".ret").innerHTML = U.retrato(L.p, L.r.fi || L.p.img, cor);
+    el.querySelector(".nm").textContent = U.nome(L.p);
+    el.querySelector(".pw").textContent = U.fmt(L.r.v) + " · " + L.r.f;
+    $(i ? "auxB" : "auxA").textContent = U.sagaCurta(L.r.s);
+    el.querySelector(".ops").innerHTML = opcoes(L.p).map(function (r, k) {
+      return '<div class="op' + (r === L.r ? " on" : "") + '" data-k="' + k + '"><span><span class="sg">' + U.esc(U.sagaCurta(r.s)) + ' · </span><span class="fm">' + U.esc(r.f) + '</span></span><span class="v">' + U.fmt(r.v) + "</span></div>";
+    }).join("");
+    var on = el.querySelector(".op.on"), box = el.querySelector(".ops");
+    if (on) box.scrollTop = on.offsetTop - box.offsetTop - 60;
+  }
+  function chance(a, b) { return a * a / (a * a + b * b); }
+  function odds() {
+    var A = lados[0], B = lados[1];
+    $("oA").textContent = A ? U.nome(A.p) + " · " + Math.round((B ? chance(A.r.v, B.r.v) : .5) * 100) + "%" : "Lado A";
+    $("oB").textContent = B ? Math.round((A ? chance(B.r.v, A.r.v) : .5) * 100) + "% · " + U.nome(B.p) : "Lado B";
+    $("oBar").style.width = (A && B ? chance(A.r.v, B.r.v) * 100 : 50) + "%";
+    $("btnLutar").disabled = !(A && B);
+  }
+
+  $("gradeA").addEventListener("click", function (e) { var t = e.target.closest(".tl"); if (t) definir(ativo, D.perById[+t.dataset.id]); });
+  $("buscaA").addEventListener("input", function (e) { busca = e.target.value; grade(); });
+  document.querySelector(".alvo").addEventListener("click", function (e) { var c = e.target.closest(".chip"); if (c) alvo(+c.dataset.l); });
+  ["ladoA", "ladoB"].forEach(function (id, i) {
+    $(id).addEventListener("click", function (e) {
+      var o = e.target.closest(".op");
+      if (o) { lados[i].r = opcoes(lados[i].p)[+o.dataset.k]; ladoUI(i); odds(); }
+      else alvo(i);
+    });
+  });
+  $("btnSortear").addEventListener("click", function () {
+    var ps = D.per.slice().sort(function () { return Math.random() - .5; });
+    [0, 1].forEach(function (i) { var op = opcoes(ps[i]); lados[i] = { p: ps[i], r: op[Math.floor(Math.random() * op.length)] }; ladoUI(i); });
+    grade(); odds();
+  });
+
+  /* ---------- motor de batalha (calibrado para seguir o modelo A²/(A²+B²)) */
+  var K = 0.25, BASE = 120, VAR = 200;
+  function novaLuta() {
+    var a = lados[0].r.v, b = lados[1].r.v;
+    return { hp: [1000, 1000], esp: [0, 0], vez: Math.random() < 0.35 + 0.3 * chance(a, b) ? 0 : 1, turno: 0, fim: false,
+      st: { dano: [0, 0], crit: [0, 0], esq: [0, 0], golpes: [0, 0] } };
+  }
+  function golpe(L, silencioso) {
+    var a = L.vez, d = 1 - a, A = lados[a], B = lados[d], ratio = A.r.v / B.r.v, g = U.golpes(A.p);
+    var ev = { a: a, d: d, esp: false, crit: false, esq: false, dano: 0 };
+    if (!L.esp[a] && L.hp[a] < 400 && Math.random() < 0.55) { ev.esp = true; L.esp[a] = 1; ev.golpe = g[1]; }
+    else ev.golpe = g[0][Math.floor(Math.random() * g[0].length)];
+    if (!ev.esp && /kaioken/i.test(A.r.f) && Math.random() < .5) ev.golpe = "Kaioken + " + ev.golpe;
+    var pEsq = U.clamp(0.08 - 0.10 * Math.log10(ratio), 0.02, 0.32);
+    if (!ev.esp && Math.random() < pEsq) ev.esq = true;
+    else {
+      var dano = (BASE + Math.random() * VAR) * U.clamp(Math.pow(ratio, K), 0.05, 20);
+      if (ev.esp) dano *= 2.3;
+      if (Math.random() < 0.12) { dano *= 1.6; ev.crit = true; }
+      ev.dano = Math.min(1000, Math.round(dano));
+    }
+    L.hp[d] = Math.max(0, L.hp[d] - ev.dano);
+    L.st.dano[a] += ev.dano; L.st.golpes[a]++; if (ev.crit) L.st.crit[a]++; if (ev.esq) L.st.esq[d]++;
+    L.turno++; L.vez = d;
+    if (L.hp[d] <= 0) { L.fim = true; L.venc = a; }
+    return ev;
+  }
+
+  /* ---------- cena */
+  var luta = null, auto = false, vel = 1, ocupado = false, token = 0;
+  function cenario(s) { return s >= 2 && s <= 4 ? "cen-namek" : s >= 6 && s <= 10 ? "cen-cell" : s >= 11 ? "cen-buu" : "cen-terra"; }
+  function montanhas() {
+    function serra(y0, amp, n, seed) {
+      var d = "M0 230 L0 " + y0, x = 0, r = seed;
+      for (var i = 0; i <= n; i++) { r = (r * 9301 + 49297) % 233280; x = i * 1248 / n; d += " L" + x.toFixed(0) + " " + (y0 - amp * (r / 233280)).toFixed(0); }
+      return d + " L1248 230 Z";
+    }
+    $("mont1").setAttribute("d", serra(120, 110, 14, 7)); $("mont2").setAttribute("d", serra(180, 80, 22, 3));
+  }
+  function hud(i) {
+    var el = $(i ? "hudB" : "hudA"), L = lados[i], hp = luta.hp[i], pct = hp / 10;
+    el.querySelector(".n").textContent = U.nome(L.p);
+    el.querySelector(".s").textContent = L.r.f + " · " + U.sagaCurta(L.r.s);
+    el.querySelector(".vida").style.width = pct + "%";
+    el.querySelector(".vida").style.background = pct > 50 ? "linear-gradient(90deg,#2ee67a,#39ff88)" : pct > 22 ? "linear-gradient(90deg,#ffb02e,#ffd23f)" : "linear-gradient(90deg,#ff3b3b,#ff6b6b)";
+    el.querySelector(".rast").style.width = pct + "%";
+    el.querySelector(".hv").textContent = "HP " + hp + "/1000";
+    el.querySelector(".pw").textContent = "poder " + U.fmt(L.r.v);
+  }
+  function entrar() {
+    token++; luta = novaLuta(); ocupado = false;
+    var arena = $("arena");
+    arena.className = "on " + cenario(lados[0].r.s); app.classList.add("batalha"); montanhas();
+    [0, 1].forEach(function (i) {
+      var L = lados[i], el = $(i ? "luB" : "luA"), cor = U.aura(L.r.f);
+      el.className = "luta"; el.style.setProperty("--aura", cor);
+      el.querySelector(".ret").innerHTML = U.retrato(L.p, L.r.fi || L.p.img, cor);
+      hud(i);
+    });
+    $("logL").innerHTML = "";
+    registrar("A luta começou! <b class='" + (luta.vez ? "b" : "a") + "'>" + U.esc(U.nome(lados[luta.vez].p)) + "</b> ataca primeiro.");
+    $("turnoT").textContent = "TURNO 1";
+    banner("LUTEM!", "#ff8a00");
+    $("mFim").classList.remove("on"); $("mSim").classList.remove("on");
+    botoes();
+    if (auto) agendar(1300);
+  }
+  function registrar(html) {
+    var l = $("logL"); l.insertAdjacentHTML("afterbegin", '<div class="ln">' + html + "</div>");
+    while (l.children.length > 5) l.removeChild(l.lastChild);
+  }
+  function banner(txt, cor) { var b = $("banner"); b.textContent = txt; b.style.setProperty("--bc", cor); b.classList.remove("on"); void b.offsetWidth; b.classList.add("on"); }
+  function botoes() { $("bProx").disabled = !luta || luta.fim || ocupado; $("bAuto").classList.toggle("on", auto); $("bVel").textContent = vel + "×"; }
+  function agendar(ms) { var t = token; setTimeout(function () { if (t === token && auto && luta && !luta.fim && !ocupado) turno(); }, ms / vel); }
+
+  function turno() {
+    if (!luta || luta.fim || ocupado) return;
+    ocupado = true; botoes();
+    var t = token, ev = golpe(luta), f = 1 / vel;
+    var At = $(ev.a ? "luB" : "luA"), Df = $(ev.d ? "luB" : "luA"), dir = ev.a ? -1 : 1;
+    var corA = U.aura(lados[ev.a].r.f);
+    $("turnoT").textContent = "TURNO " + luta.turno;
+    At.style.transform = "translateX(" + 40 * dir + "px)";
+    if (ev.esp) { banner(ev.golpe.toUpperCase() + "!", corA); }
+    setTimeout(function () {
+      if (t !== token) return;
+      var r = $("raio"), x1 = ev.a ? 1248 - 110 - 210 : 110 + 210, x2 = ev.a ? 110 + 150 : 1248 - 110 - 150;
+      var esq = Math.min(x1, x2), larg = Math.abs(x2 - x1);
+      r.style.transition = "none"; r.style.left = (ev.a ? x1 : esq) + "px"; r.style.width = "0px"; r.style.opacity = 1;
+      r.style.height = ev.esp ? "44px" : "22px"; r.style.top = ev.esp ? "381px" : "392px";
+      r.style.background = "linear-gradient(90deg," + corA + "," + (ev.esp ? "#ffffff" : corA) + ")";
+      r.style.boxShadow = "0 0 24px " + corA + ", 0 0 60px " + corA;
+      void r.offsetWidth;
+      r.style.transition = "left " + 0.22 * f + "s linear, width " + 0.22 * f + "s linear";
+      if (ev.a) r.style.left = esq + "px";
+      r.style.width = larg + "px";
+    }, 160 * f);
+    setTimeout(function () {
+      if (t !== token) return;
+      var imp = $("impacto"), xi = ev.d ? 1248 - 110 - 140 : 110 + 140;
+      imp.style.left = xi + "px"; imp.style.transition = "none"; imp.style.opacity = 1; imp.style.transform = "scale(.3)";
+      void imp.offsetWidth; imp.style.transition = "all " + 0.4 * f + "s ease-out"; imp.style.transform = "scale(" + (ev.esp ? 2.2 : ev.crit ? 1.5 : 1) + ")"; imp.style.opacity = 0;
+      var num = document.createElement("div");
+      num.className = "dano" + (ev.crit ? " crit" : "") + (ev.esq ? " esq" : "");
+      num.textContent = ev.esq ? "ESQUIVOU!" : (ev.crit ? "CRÍTICO! " : "") + "-" + ev.dano;
+      num.style.left = (xi - 60 + (Math.random() * 40 - 20)) + "px"; num.style.top = "290px";
+      $("arena").appendChild(num); setTimeout(function () { num.remove(); }, 1300);
+      if (ev.esq) { Df.style.transform = "translate(" + (-30 * dir) + "px,-30px)"; }
+      else { Df.classList.remove("hit"); void Df.offsetWidth; Df.classList.add("hit"); if (ev.esp || ev.crit) { $("flash").classList.remove("on"); void $("flash").offsetWidth; $("flash").classList.add("on"); } }
+      hud(ev.d);
+      var na = "<b class='" + (ev.a ? "b" : "a") + "'>" + U.esc(U.nome(lados[ev.a].p)) + "</b>", nd = "<b class='" + (ev.d ? "b" : "a") + "'>" + U.esc(U.nome(lados[ev.d].p)) + "</b>";
+      registrar(ev.esq ? na + " usou " + U.esc(ev.golpe) + ", mas " + nd + " esquivou!" :
+        (ev.esp ? "<span class='c'>ESPECIAL!</span> " : ev.crit ? "<span class='c'>CRÍTICO!</span> " : "") + na + " usou " + U.esc(ev.golpe) + " <span class='d'>−" + ev.dano + "</span>");
+    }, 400 * f);
+    setTimeout(function () {
+      if (t !== token) return;
+      $("raio").style.opacity = 0; At.style.transform = ""; Df.style.transform = ""; Df.classList.remove("hit");
+      ocupado = false;
+      if (luta.fim) fim(); else { botoes(); if (auto) agendar(700); }
+    }, 950 * f);
+  }
+
+  function fim() {
+    var v = luta.venc, p = 1 - v, ch = chance(lados[v].r.v, lados[p].r.v);
+    $(p ? "luB" : "luA").classList.add("ko");
+    registrar("<b class='" + (v ? "b" : "a") + "'>" + U.esc(U.nome(lados[v].p)) + "</b> venceu em " + luta.turno + " golpes!");
+    banner("K.O.!", "#ff4d5e"); botoes();
+    setTimeout(function () {
+      $("fimV").innerHTML = "VITÓRIA DE <span style='color:" + (v ? "var(--bl2)" : "var(--or)") + "'>" + U.esc(U.nome(lados[v].p).toUpperCase()) + "</span>";
+      $("fimS").textContent = ch < 0.35 ? "Zebra! O modelo dava só " + Math.round(ch * 100) + "% de chance para esse resultado." : "O modelo dava " + Math.round(ch * 100) + "% de chance para esse resultado.";
+      var s = luta.st;
+      $("fimG").innerHTML = "<div><b>" + luta.turno + "</b><span>golpes</span></div><div><b>" + s.dano[v] + "</b><span>dano causado</span></div>" +
+        "<div><b>" + s.crit[v] + "</b><span>críticos</span></div><div><b>" + luta.hp[v] + "</b><span>HP restante</span></div>";
+      $("mFim").classList.add("on");
+    }, 1400);
+  }
+
+  function simular() {
+    $("mFim").classList.remove("on"); auto = false; token++; ocupado = false; botoes();
+    var m = $("mSim"); m.classList.add("on"); $("simBar").style.width = "50%"; $("simS").textContent = "calculando…";
+    setTimeout(function () {
+      var w = 0, tt = 0, zeb = 0, n = 1000, chA = chance(lados[0].r.v, lados[1].r.v);
+      for (var i = 0; i < n; i++) { var L = novaLuta(); while (!L.fim && L.turno < 300) golpe(L, true); if (L.venc === 0) w++; tt += L.turno; }
+      $("simBar").style.width = w / n * 100 + "%";
+      $("simA").textContent = U.nome(lados[0].p) + " " + w.toLocaleString("pt-BR");
+      $("simB").textContent = (n - w).toLocaleString("pt-BR") + " " + U.nome(lados[1].p);
+      $("simS").textContent = "Mesmo motor da luta animada, rodado 1.000 vezes.";
+      $("simG").innerHTML = "<div><b>" + (w / 10).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "%</b><span>vitórias de A</span></div>" +
+        "<div><b>" + (chA * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "%</b><span>previsto pelo modelo</span></div>" +
+        "<div><b>" + (tt / n).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "</b><span>golpes por luta</span></div>";
+    }, 450);
+  }
+  function sair() { token++; auto = false; luta = null; $("arena").className = ""; app.classList.remove("batalha"); }
+
+  $("btnLutar").addEventListener("click", entrar);
+  $("bProx").addEventListener("click", turno);
+  $("bAuto").addEventListener("click", function () { auto = !auto; botoes(); if (auto) agendar(200); });
+  $("bVel").addEventListener("click", function () { vel = vel === 1 ? 2 : vel === 2 ? 3 : 1; botoes(); });
+  $("bRev").addEventListener("click", entrar); $("fRev").addEventListener("click", entrar);
+  $("bSim").addEventListener("click", simular); $("fSim").addEventListener("click", simular);
+  $("sOk").addEventListener("click", function () { $("mSim").classList.remove("on"); if (luta && luta.fim) $("mFim").classList.add("on"); });
+  $("bSair").addEventListener("click", sair); $("fSair").addEventListener("click", sair);
+
+  grade();
+  var g = U.porNome("Goku"), f = U.porNome("Freezer");
+  if (g && f) {
+    var rg = opcoes(g).filter(function (r) { return r.s === 4 && r.f === "SSJ"; })[0], rf = opcoes(f).filter(function (r) { return r.s === 4 && r.f === "Forma final"; })[0];
+    definir(0, g, rg); definir(1, f, rf); alvo(0);
+  }
+  odds();
+})();
+</script>

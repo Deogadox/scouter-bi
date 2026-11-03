@@ -21,6 +21,7 @@ ref table fato_poder
 ref table fato_luta
 ref table 'Lutador A'
 ref table 'Lutador B'
+ref table _Paginas
 
 ref cultureInfo pt-BR
 

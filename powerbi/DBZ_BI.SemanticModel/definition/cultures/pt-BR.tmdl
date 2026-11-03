@@ -1,2 +1,207 @@
 cultureInfo pt-BR
 
+	linguisticMetadata =
+			{
+			  "Version": "1.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "dim_personagem.url_imagem": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_personagem",
+			        "ConceptualProperty": "url_imagem"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_personagem.raca": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_personagem",
+			        "ConceptualProperty": "raca"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_personagem.afiliacao": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_personagem",
+			        "ConceptualProperty": "afiliacao"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_personagem.nome": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_personagem",
+			        "ConceptualProperty": "nome"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.ranking_na_saga": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Ranking na Saga"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.scouter_svg": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Scouter SVG"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.poder_formatado": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Poder Formatado"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.multiplicador_da_forma": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Multiplicador da Forma"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.fonte_valor": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "fonte_valor"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.mais_forte_da_saga": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Mais Forte da Saga"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_poder.poder_log10": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_poder",
+			        "ConceptualProperty": "Poder (log10)"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_saga.nome": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_saga",
+			        "ConceptualProperty": "nome"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_saga.arco": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_saga",
+			        "ConceptualProperty": "arco"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_transformacao.forma": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_transformacao",
+			        "ConceptualProperty": "forma"
+			      },
+			      "State": "Generated"
+			    },
+			    "dim_planeta.nome": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_planeta",
+			        "ConceptualProperty": "nome"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.imagem_b": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Imagem B"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.barra_de_chance_svg": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Barra de Chance SVG"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.imagem_a": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Imagem A"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.chance_de_vitória_a": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Chance de Vitória A"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.opção": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Opção"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.chance_de_vitória_b": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Chance de Vitória B"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_b.opção": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador B",
+			        "ConceptualProperty": "Opção"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_luta.id_luta": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_luta",
+			        "ConceptualProperty": "id_luta"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_luta.forma_do_vencedor": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_luta",
+			        "ConceptualProperty": "Forma do Vencedor"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_luta.forma_do_perdedor": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_luta",
+			        "ConceptualProperty": "Forma do Perdedor"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_luta.zebra": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_luta",
+			        "ConceptualProperty": "zebra"
+			      },
+			      "State": "Generated"
+			    },
+			    "fato_luta.observacao": {
+			      "Binding": {
+			        "ConceptualEntity": "fato_luta",
+			        "ConceptualProperty": "observacao"
+			      },
+			      "State": "Generated"
+			    },
+			    "lutador_a.batalha_svg": {
+			      "Binding": {
+			        "ConceptualEntity": "Lutador A",
+			        "ConceptualProperty": "Batalha SVG"
+			      },
+			      "State": "Generated"
+			    }
+			  }
+			}
+		contentType: json
+

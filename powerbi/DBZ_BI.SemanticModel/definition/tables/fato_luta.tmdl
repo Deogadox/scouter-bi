@@ -22,6 +22,26 @@ table fato_luta
 		displayFolder: Lutas
 		lineageTag: 78043cc6-40b2-5ca8-be0f-7180e19dba4d
 
+	/// Nome do vencedor da luta.
+	measure Vencedor = LOOKUPVALUE ( dim_personagem[nome], dim_personagem[sk_personagem], SELECTEDVALUE ( fato_luta[sk_vencedor] ) )
+		displayFolder: Lutas
+		lineageTag: 4b012b14-00d9-5f20-9e5e-8cf469e4cb4d
+
+	/// Nome do perdedor da luta.
+	measure Perdedor = LOOKUPVALUE ( dim_personagem[nome], dim_personagem[sk_personagem], SELECTEDVALUE ( fato_luta[sk_perdedor] ) )
+		displayFolder: Lutas
+		lineageTag: 0c000ebe-f868-5aab-80ed-4955959ab6d1
+
+	/// Forma usada pelo vencedor.
+	measure 'Forma do Vencedor' = LOOKUPVALUE ( dim_transformacao[forma], dim_transformacao[sk_transformacao], SELECTEDVALUE ( fato_luta[sk_transformacao_vencedor] ) )
+		displayFolder: Lutas
+		lineageTag: d1d22108-e10d-538a-879f-42944af19ae8
+
+	/// Forma usada pelo perdedor.
+	measure 'Forma do Perdedor' = LOOKUPVALUE ( dim_transformacao[forma], dim_transformacao[sk_transformacao], SELECTEDVALUE ( fato_luta[sk_transformacao_perdedor] ) )
+		displayFolder: Lutas
+		lineageTag: 644abb9d-3d28-54a5-b134-4f3cfc8cd80b
+
 	column id_luta
 		dataType: int64
 		formatString: 0
