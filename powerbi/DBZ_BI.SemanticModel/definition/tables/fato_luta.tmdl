@@ -1,0 +1,145 @@
+table fato_luta
+	lineageTag: db77cfbd-3e22-5f89-b867-b9ff209dd5fe
+
+	/// Lutas canônicas no contexto.
+	measure 'Qtd Lutas' = COUNTROWS ( fato_luta )
+		formatString: 0
+		displayFolder: Lutas
+		lineageTag: f3484610-61dc-575f-976b-60f61169febc
+
+	/// Lutas em que o personagem mais fraco venceu.
+	measure 'Qtd Zebras' = CALCULATE ( COUNTROWS ( fato_luta ), fato_luta[zebra] = TRUE () )
+		formatString: 0
+		displayFolder: Lutas
+		lineageTag: 8c7657a6-237b-53d5-9c31-1963695dd235
+
+	/// Em quantas vitórias o maior nível de poder previu o vencedor.
+	measure 'Acurácia do Modelo' =
+			VAR vitorias = CALCULATE ( COUNTROWS ( fato_luta ), fato_luta[resultado] = "vitoria" )
+			RETURN
+			    DIVIDE ( vitorias - [Qtd Zebras], vitorias )
+		formatString: 0%
+		displayFolder: Lutas
+		lineageTag: 78043cc6-40b2-5ca8-be0f-7180e19dba4d
+
+	column id_luta
+		dataType: int64
+		formatString: 0
+		lineageTag: ddcaa758-cb65-5fd6-b5bd-fb2ed2594b03
+		summarizeBy: none
+		sourceColumn: id_luta
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_saga
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2bb05269-7c5c-5337-8d46-96001341bb0b
+		summarizeBy: none
+		sourceColumn: sk_saga
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_vencedor
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f1efe043-4c0e-53e1-be40-a4ccccf33ac3
+		summarizeBy: none
+		sourceColumn: sk_vencedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_transformacao_vencedor
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 90e56a50-5fa6-56b3-9a4d-284d10eb83ee
+		summarizeBy: none
+		sourceColumn: sk_transformacao_vencedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_perdedor
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6c2e4add-eb5f-56a8-9b80-56cc6d80b622
+		summarizeBy: none
+		sourceColumn: sk_perdedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_transformacao_perdedor
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5eecba5a-3112-52a1-8dd1-fecbd9655cc5
+		summarizeBy: none
+		sourceColumn: sk_transformacao_perdedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column resultado
+		dataType: string
+		lineageTag: d901ca2e-9cdc-53f2-8304-3875efe9e262
+		summarizeBy: none
+		sourceColumn: resultado
+
+		annotation SummarizationSetBy = Automatic
+
+	column poder_vencedor
+		dataType: double
+		formatString: #,0
+		lineageTag: 6109d663-9091-58ba-8328-0742f2e925b5
+		summarizeBy: none
+		sourceColumn: poder_vencedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column poder_perdedor
+		dataType: double
+		formatString: #,0
+		lineageTag: 43eb457a-72d0-5365-9652-79925ae8596c
+		summarizeBy: none
+		sourceColumn: poder_perdedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column zebra
+		dataType: boolean
+		lineageTag: 8e79c50e-1746-5302-8d32-bf8b60532537
+		summarizeBy: none
+		sourceColumn: zebra
+
+		annotation SummarizationSetBy = Automatic
+
+	column episodio
+		dataType: int64
+		formatString: 0
+		lineageTag: cd008baa-9e3c-5a5d-94b3-cfec8d7750d9
+		summarizeBy: none
+		sourceColumn: episodio
+
+		annotation SummarizationSetBy = Automatic
+
+	column observacao
+		dataType: string
+		lineageTag: c3262d7f-0802-5951-a246-0c745cd32213
+		summarizeBy: none
+		sourceColumn: observacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fato_luta = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="fato_luta"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+

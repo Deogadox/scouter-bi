@@ -1,0 +1,180 @@
+table fato_poder
+	lineageTag: 80fe59f0-71a3-50f4-bf3a-ff8a7ca92659
+
+	/// Nível de poder no contexto (personagem, saga e forma).
+	measure Poder = MAX ( fato_poder[nivel_poder] )
+		formatString: #,0
+		displayFolder: Poder
+		lineageTag: 53a64ace-4927-5f02-89cc-ab5fd2809704
+
+	/// Ordem de grandeza do poder. Use em eixos para comparar 1.500 com 15 bilhões.
+	measure 'Poder (log10)' = MAX ( fato_poder[nivel_poder_log10] )
+		formatString: 0.00
+		displayFolder: Poder
+		lineageTag: ee46eff7-8aad-585f-b843-bdead2a55d91
+
+	/// Poder em texto curto: 3,2 bi, 150,0 mi, 18,0 mil.
+	measure 'Poder Formatado' =
+			VAR v = [Poder]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( v ), BLANK (),
+			        v >= 1E12, FORMAT ( v / 1E12, "#,0.0" ) & " tri",
+			        v >= 1E9, FORMAT ( v / 1E9, "#,0.0" ) & " bi",
+			        v >= 1E6, FORMAT ( v / 1E6, "#,0.0" ) & " mi",
+			        v >= 1E3, FORMAT ( v / 1E3, "#,0.0" ) & " mil",
+			        FORMAT ( v, "#,0" )
+			    )
+		displayFolder: Poder
+		lineageTag: ad360ee7-0e42-5583-bf5b-365381c56757
+
+	/// Maior nível do personagem na saga, em qualquer forma.
+	measure 'Poder Máximo na Saga' = CALCULATE ( [Poder], REMOVEFILTERS ( dim_transformacao ) )
+		formatString: #,0
+		displayFolder: Poder
+		lineageTag: 6688b71e-7b5a-536f-a775-768f49c602ca
+
+	/// Posição do personagem entre os selecionados, pelo pico na saga.
+	measure 'Ranking na Saga' =
+			IF (
+			    ISBLANK ( [Poder Máximo na Saga] ),
+			    BLANK (),
+			    RANKX ( ALLSELECTED ( dim_personagem[nome] ), [Poder Máximo na Saga], , DESC, DENSE )
+			)
+		formatString: 0
+		displayFolder: Poder
+		lineageTag: 118fa7df-aff3-5576-81ad-9e4e11e4f856
+
+	/// Quantas vezes a forma multiplica o poder base na mesma saga.
+	measure 'Multiplicador da Forma' =
+			DIVIDE (
+			    [Poder],
+			    CALCULATE ( [Poder], REMOVEFILTERS ( dim_transformacao ), dim_transformacao[e_base] = TRUE () )
+			)
+		formatString: 0.0"x"
+		displayFolder: Poder
+		lineageTag: 72387970-e209-5d37-ac48-c5f8329d5eb9
+
+	/// Pico do personagem nesta saga dividido pelo pico na saga anterior em que ele aparece.
+	measure 'Crescimento vs Saga Anterior' =
+			VAR ordemAtual = MAX ( dim_saga[ordem_cronologica] )
+			VAR pico = [Poder Máximo na Saga]
+			VAR ordemAnterior =
+			    MAXX (
+			        FILTER (
+			            ALL ( dim_saga[ordem_cronologica] ),
+			            VAR o = dim_saga[ordem_cronologica]
+			            RETURN
+			                o < ordemAtual
+			                    && NOT ISBLANK ( CALCULATE ( [Poder Máximo na Saga], REMOVEFILTERS ( dim_saga ), dim_saga[ordem_cronologica] = o ) )
+			        ),
+			        dim_saga[ordem_cronologica]
+			    )
+			VAR picoAnterior =
+			    CALCULATE ( [Poder Máximo na Saga], REMOVEFILTERS ( dim_saga ), dim_saga[ordem_cronologica] = ordemAnterior )
+			RETURN
+			    IF ( ISBLANK ( pico ) || ISBLANK ( ordemAnterior ), BLANK (), DIVIDE ( pico, picoAnterior ) )
+		formatString: 0.0"x"
+		displayFolder: Poder
+		lineageTag: 0ab3a914-52d5-59c0-8370-2ad6a417b005
+
+	/// Parcela dos valores que vem da obra ou de guia oficial.
+	measure '% Canônico ou Guia' =
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( fato_poder ), fato_poder[fonte_valor] IN { "canonico", "guia_oficial" } ),
+			    COUNTROWS ( fato_poder )
+			)
+		formatString: 0%
+		displayFolder: Curadoria
+		lineageTag: af706054-4051-57ce-a8d1-d775ec9144e9
+
+	/// Linhas de nível de poder no contexto.
+	measure 'Qtd Valores' = COUNTROWS ( fato_poder )
+		formatString: 0
+		displayFolder: Curadoria
+		lineageTag: 47830c48-a26f-5555-b816-25c6d8ccb1d9
+
+	column sk_personagem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: daffb2e3-106b-5fdf-8b8a-e46a8b89a01c
+		summarizeBy: none
+		sourceColumn: sk_personagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_saga
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e712842a-cef6-5a46-92e6-24dcfbd92149
+		summarizeBy: none
+		sourceColumn: sk_saga
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_transformacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b2786abd-959e-5930-ac04-b59ee96c533c
+		summarizeBy: none
+		sourceColumn: sk_transformacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_poder
+		dataType: double
+		formatString: #,0
+		lineageTag: 17f519b6-638f-52d5-8527-fc6faa060425
+		summarizeBy: none
+		sourceColumn: nivel_poder
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_poder_log10
+		dataType: double
+		formatString: 0.00
+		lineageTag: 644c6154-d082-50f0-904c-7b24882e989f
+		summarizeBy: none
+		sourceColumn: nivel_poder_log10
+
+		annotation SummarizationSetBy = Automatic
+
+	column fonte_valor
+		dataType: string
+		lineageTag: 4bd69f3c-1ab1-5560-8472-c78ebc3d0d41
+		summarizeBy: none
+		sourceColumn: fonte_valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column referencia
+		dataType: string
+		lineageTag: 38c6ff7f-15bd-585e-bc84-36a476d31526
+		summarizeBy: none
+		sourceColumn: referencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column observacao
+		dataType: string
+		lineageTag: 8370c766-c60d-500a-be4c-a899848ba8f5
+		summarizeBy: none
+		sourceColumn: observacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fato_poder = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="fato_poder"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+

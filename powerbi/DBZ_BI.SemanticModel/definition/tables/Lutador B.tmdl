@@ -1,0 +1,99 @@
+table 'Lutador B'
+	lineageTag: 36b9f35d-22fb-5aa2-9686-f33b864da66c
+
+	column Opção
+		dataType: string
+		lineageTag: 76fd2c5c-8e48-5111-8036-6b30a6db4004
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Opção]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Personagem
+		dataType: string
+		lineageTag: b24f8e36-24d5-5a2c-a6d6-d7b83010b4a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Personagem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Forma
+		dataType: string
+		lineageTag: 2d7f8a9c-e89b-5cc4-83b5-408aec0e4c15
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Forma]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Saga
+		dataType: string
+		lineageTag: a5f0d48e-22f9-59fa-b227-ab61232fcb29
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Saga]
+		sortByColumn: 'Ordem Saga'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordem Saga'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 246a1ab5-a389-5361-bd97-19452390112e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem Saga]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Imagem
+		dataType: string
+		lineageTag: 27431bd1-bfd6-555c-8c83-084df27eb467
+		dataCategory: ImageUrl
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Imagem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Poder
+		dataType: double
+		formatString: #,0
+		lineageTag: b9fe875e-e616-5169-9b15-1996a3240124
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Poder]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Log
+		dataType: double
+		isHidden
+		formatString: 0.00
+		lineageTag: 8e17d91a-63b2-56a8-8c2a-0a2407de2284
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Log]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Lutador B' = calculated
+		mode: import
+		source =
+				SELECTCOLUMNS (
+				    fato_poder,
+				    "Opção", RELATED ( dim_personagem[nome] ) & " · " & RELATED ( dim_transformacao[forma] ) & " · " & RELATED ( dim_saga[nome] ),
+				    "Personagem", RELATED ( dim_personagem[nome] ),
+				    "Forma", RELATED ( dim_transformacao[forma] ),
+				    "Saga", RELATED ( dim_saga[nome] ),
+				    "Ordem Saga", RELATED ( dim_saga[ordem_cronologica] ),
+				    "Imagem", RELATED ( dim_personagem[url_imagem] ),
+				    "Poder", fato_poder[nivel_poder],
+				    "Log", fato_poder[nivel_poder_log10]
+				)
+
+	annotation PBI_Id = 91825a86ad3e564f82e4f5fab1e2faeb
+

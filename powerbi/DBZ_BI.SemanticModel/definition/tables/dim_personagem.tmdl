@@ -1,0 +1,136 @@
+table dim_personagem
+	lineageTag: 501fb361-19a0-5fec-bb80-66aa3c58c810
+
+	column sk_personagem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 643add16-d1f9-51a5-aa00-8dac858e55a8
+		summarizeBy: none
+		sourceColumn: sk_personagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_api
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8cd0d906-cec4-5f0e-8298-73ce40be5c16
+		summarizeBy: none
+		sourceColumn: id_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_extra
+		dataType: string
+		isHidden
+		lineageTag: 35477b38-0f75-50dc-b844-96220a5ab3ee
+		summarizeBy: none
+		sourceColumn: codigo_extra
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: a3c01305-5a6b-5bdd-aaad-c1ab268d58a0
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column raca
+		dataType: string
+		lineageTag: 0c7e244e-02e8-5eec-95d1-a7be84aefabd
+		summarizeBy: none
+		sourceColumn: raca
+
+		annotation SummarizationSetBy = Automatic
+
+	column genero
+		dataType: string
+		lineageTag: b52241c8-b867-5b64-9277-7a62da291b15
+		summarizeBy: none
+		sourceColumn: genero
+
+		annotation SummarizationSetBy = Automatic
+
+	column afiliacao
+		dataType: string
+		lineageTag: 83e7cd88-41a4-5c3d-9ea6-ec806d85cf11
+		summarizeBy: none
+		sourceColumn: afiliacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_planeta
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a6dcda80-0100-5406-9e06-f0300e8304ca
+		summarizeBy: none
+		sourceColumn: sk_planeta
+
+		annotation SummarizationSetBy = Automatic
+
+	column url_imagem
+		dataType: string
+		lineageTag: 97d61efb-18ef-5dde-9942-9dce33e170f5
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: url_imagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column ki_api_valor
+		dataType: double
+		formatString: #,0
+		lineageTag: 99357d83-496c-555b-9bba-d1da74228176
+		summarizeBy: none
+		sourceColumn: ki_api_valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column ki_api_status
+		dataType: string
+		lineageTag: aa2463ba-99b7-53b8-a61b-1bbfe17bb149
+		summarizeBy: none
+		sourceColumn: ki_api_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column ki_max_api_valor
+		dataType: double
+		formatString: #,0
+		lineageTag: 06305707-46b3-5e30-9adc-f88978837950
+		summarizeBy: none
+		sourceColumn: ki_max_api_valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column ki_max_api_status
+		dataType: string
+		lineageTag: 7155cd54-9e9a-5ae8-b57d-8d6fcfbf5f28
+		summarizeBy: none
+		sourceColumn: ki_max_api_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column origem
+		dataType: string
+		lineageTag: d30cda22-14e6-59ec-9fae-9abdc8f48a0b
+		summarizeBy: none
+		sourceColumn: origem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_personagem = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="dim_personagem"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+

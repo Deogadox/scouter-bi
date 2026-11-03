@@ -1,0 +1,17 @@
+codigo_saga,nome,serie,arco,ordem_cronologica,episodio_inicio,episodio_fim,filler
+saiyajin,Saga Saiyajin,Z,Saiyajin,1,1,35,0
+namek,Saga Namekusei,Z,Freeza,2,36,67,0
+ginyu,Saga Forças Especiais Ginyu,Z,Freeza,3,68,74,0
+freeza,Saga Freeza,Z,Freeza,4,75,107,0
+garlic_jr,Saga Garlic Jr.,Z,Filler,5,108,117,1
+trunks,Saga Trunks do Futuro,Z,Cell,6,118,125,0
+androides,Saga dos Androides,Z,Cell,7,126,139,0
+cell_imperfeito,Saga Cell Imperfeito,Z,Cell,8,140,152,0
+cell_perfeito,Saga Cell Perfeito,Z,Cell,9,153,165,0
+jogos_cell,Saga Jogos de Cell,Z,Cell,10,166,194,0
+grande_saiyaman,Saga Grande Saiyaman,Z,Majin Boo,11,195,209,0
+torneio,Saga Torneio Mundial,Z,Majin Boo,12,210,219,0
+babidi,Saga Babidi,Z,Majin Boo,13,220,231,0
+majin_boo,Saga Majin Boo,Z,Majin Boo,14,232,253,0
+fusao,Saga Fusão,Z,Majin Boo,15,254,275,0
+kid_boo,Saga Kid Boo,Z,Majin Boo,16,276,291,0

@@ -52,7 +52,27 @@ python src\check_api.py
 sqlcmd -S localhost -E -C -i sql\01_stg_tables.sql
 python -m pytest -q
 python -m src.extract
+
+# 6. Fase 2: curadoria (CSVs) -> stg -> dw
+powershell -ExecutionPolicy Bypass -File scripts\run_fase2.ps1
 ```
+
+## Modelo de dados (schema `dw`)
+
+| Tabela | Grão | Origem |
+| --- | --- | --- |
+| `dim_personagem` | personagem | API + extras da curadoria |
+| `dim_saga` | saga do Dragon Ball Z | curadoria |
+| `dim_transformacao` | personagem × forma | curadoria + API |
+| `dim_planeta` | planeta | API |
+| `fato_poder` | personagem × saga × forma | curadoria |
+| `fato_luta` | luta canônica | curadoria |
+
+## Power BI
+
+O relatório fica em `powerbi/DBZ_BI.pbip` (formato de projeto, versionável). Abra no Power BI Desktop e clique em **Atualizar**. Os parâmetros `Servidor` e `Banco` apontam para `localhost` / `DBZ_BI`. As medidas estão documentadas em [docs/medidas_dax.md](docs/medidas_dax.md).
+
+Os níveis de poder seguem a [metodologia documentada](docs/metodologia_poder.md): cada valor é marcado como `canonico`, `guia_oficial` ou `estimado`.
 
 ## Fonte dos dados
 

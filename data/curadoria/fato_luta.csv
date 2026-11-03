@@ -1,0 +1,23 @@
+id_luta,codigo_saga,vencedor_id_api,vencedor_codigo_extra,vencedor,forma_vencedor,perdedor_id_api,perdedor_codigo_extra,perdedor,forma_perdedor,resultado,episodio,observacao
+1,saiyajin,3,,Piccolo,Base,30,,Raditz,Base,vitoria,,Goku segura Raditz; Piccolo vence com o Makankosappo
+2,saiyajin,1,,Goku,Base,,nappa,Nappa,Base,vitoria,,
+3,saiyajin,1,,Goku,Kaioken x4,2,,Vegeta,Base,vitoria,,Vegeta foge após luta em equipe
+4,namek,2,,Vegeta,Base,7,,Dodoria,Base,vitoria,,
+5,namek,2,,Vegeta,Base,6,,Zarbon,Forma monstro,vitoria,,"Revanche, após o zenkai"
+6,ginyu,1,,Goku,Base,,recoome,Recoome,Base,vitoria,,
+7,ginyu,1,,Goku,Kaioken x2,8,,Ginyu,Base,vitoria,,Ginyu troca de corpo com Goku
+8,freeza,1,,Goku,SSJ,5,,Freezer,Forma final,vitoria,,Primeira transformação em Super Saiyajin
+9,trunks,16,,Trunks,SSJ,5,,Freezer,Forma final,vitoria,,Mecha Freeza
+10,androides,2,,Vegeta,SSJ,24,,Android 19,Base,vitoria,,
+11,androides,64,,Android 18,Base,2,,Vegeta,SSJ,vitoria,,
+12,cell_perfeito,2,,Vegeta,SSJ,9,,Celula,Forma semiperfeita,vitoria,,Vegeta deixa Cell absorver a 18
+13,cell_perfeito,9,,Celula,Forma perfeita,2,,Vegeta,SSJ,vitoria,,
+14,jogos_cell,9,,Celula,Forma perfeita,1,,Goku,SSJ,vitoria,,Goku desiste e indica Gohan
+15,jogos_cell,10,,Gohan,SSJ2,9,,Celula,Forma superperfeita,vitoria,,Kamehameha pai e filho
+16,babidi,1,,Goku,SSJ2,2,,Vegeta,SSJ2,empate,,Luta interrompida pela liberação de Boo
+17,majin_boo,32,,Majin Buu,Base,2,,Vegeta,SSJ2,vitoria,,Vegeta se sacrifica
+18,fusao,32,,Majin Buu,Super Boo,15,,Gotenks,SSJ3,vitoria,,Boo absorve Gotenks
+19,fusao,10,,Gohan,Místico (Ultimate),32,,Majin Buu,Super Boo,vitoria,,
+20,fusao,32,,Majin Buu,Boo absorve Gotenks,10,,Gohan,Místico (Ultimate),vitoria,,
+21,fusao,66,,Vegetto,SSJ,32,,Majin Buu,Boo absorve Gohan,vitoria,,
+22,kid_boo,1,,Goku,SSJ3,32,,Majin Buu,Kid Boo (Puro),vitoria,,Vitória com a Genki Dama

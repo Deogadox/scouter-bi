@@ -1,0 +1,93 @@
+table dim_saga
+	lineageTag: 291cb86c-8205-583e-8f10-6b0a31e3cbf4
+
+	column sk_saga
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3dc9fce6-59b8-5294-8941-7eb7b9a1924b
+		summarizeBy: none
+		sourceColumn: sk_saga
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_saga
+		dataType: string
+		isHidden
+		lineageTag: 13fe8622-45ef-57bc-80c0-e20f31894e33
+		summarizeBy: none
+		sourceColumn: codigo_saga
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 7ff8c201-bc7d-502e-9708-05de4ff7f6e4
+		summarizeBy: none
+		sourceColumn: nome
+		sortByColumn: ordem_cronologica
+
+		annotation SummarizationSetBy = Automatic
+
+	column serie
+		dataType: string
+		lineageTag: 20935d35-6254-5b5d-bcf4-3727d124fe3b
+		summarizeBy: none
+		sourceColumn: serie
+
+		annotation SummarizationSetBy = Automatic
+
+	column arco
+		dataType: string
+		lineageTag: 70684539-5dad-555d-b71a-80aec384db9c
+		summarizeBy: none
+		sourceColumn: arco
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordem_cronologica
+		dataType: int64
+		formatString: 0
+		lineageTag: f015356c-9b79-5f35-8b79-411ff4c24523
+		summarizeBy: none
+		sourceColumn: ordem_cronologica
+
+		annotation SummarizationSetBy = Automatic
+
+	column episodio_inicio
+		dataType: int64
+		formatString: 0
+		lineageTag: 4930c0d8-1505-523d-897c-b0e089e50cca
+		summarizeBy: none
+		sourceColumn: episodio_inicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column episodio_fim
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e04bdca-3c06-54c4-95ea-5eedbc55945d
+		summarizeBy: none
+		sourceColumn: episodio_fim
+
+		annotation SummarizationSetBy = Automatic
+
+	column filler
+		dataType: boolean
+		lineageTag: b4bb0269-c616-5fdc-b0ca-06e68596fdf1
+		summarizeBy: none
+		sourceColumn: filler
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_saga = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="dim_saga"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+

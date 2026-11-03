@@ -1,0 +1,103 @@
+table dim_transformacao
+	lineageTag: 1bd6f503-bc25-5838-8f13-6ada24807b90
+
+	column sk_transformacao
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0ccd1e75-3204-532e-8fd1-0b2bbbdcfe8f
+		summarizeBy: none
+		sourceColumn: sk_transformacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_personagem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3f56a627-98b3-504d-8611-6af7213089a3
+		summarizeBy: none
+		sourceColumn: sk_personagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column forma
+		dataType: string
+		lineageTag: 700700fc-66c2-5a09-8c2c-7ecafe848fc7
+		summarizeBy: none
+		sourceColumn: forma
+
+		annotation SummarizationSetBy = Automatic
+
+	column e_base
+		dataType: boolean
+		lineageTag: 7612d3c2-ae6a-5f58-875e-0664c7248c19
+		summarizeBy: none
+		sourceColumn: e_base
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordem
+		dataType: int64
+		formatString: 0
+		lineageTag: 3fbc09ec-967d-5de1-87fb-ae73afd0fd85
+		summarizeBy: none
+		sourceColumn: ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_api
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c2dc9a7d-ce54-5e97-801c-d6a0ac24c530
+		summarizeBy: none
+		sourceColumn: id_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_api
+		dataType: string
+		lineageTag: f6909273-5a0a-542f-82e6-e734539e20b1
+		summarizeBy: none
+		sourceColumn: nome_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column ki_api_valor
+		dataType: double
+		formatString: #,0
+		lineageTag: b6f6a4f5-f05a-58e9-b5f5-0a9331947a22
+		summarizeBy: none
+		sourceColumn: ki_api_valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column url_imagem
+		dataType: string
+		lineageTag: 657c9b92-20d0-5df5-99ae-3a74b4bc4b2f
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: url_imagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column origem
+		dataType: string
+		lineageTag: 3c931ce6-3549-51e8-b9e9-08e7f2fe87a3
+		summarizeBy: none
+		sourceColumn: origem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_transformacao = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="dim_transformacao"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+

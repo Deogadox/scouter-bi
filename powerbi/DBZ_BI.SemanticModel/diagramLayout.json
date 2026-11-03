@@ -1,0 +1,126 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 155.84254161554367,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 334.23947382307483,
+            "y": 233.21499321173232
+          },
+          "nodeIndex": "dim_personagem",
+          "nodeLineageTag": "501fb361-19a0-5fec-bb80-66aa3c58c810",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 276.81918216539475
+          },
+          "nodeIndex": "dim_planeta",
+          "nodeLineageTag": "5b33cd0d-8f5b-59e5-b3ed-dfa54c71dc1d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1215.3303161406061,
+            "y": 362.91269824001859
+          },
+          "nodeIndex": "dim_saga",
+          "nodeLineageTag": "291cb86c-8205-583e-8f10-6b0a31e3cbf4",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 621.19187980243612,
+            "y": -50
+          },
+          "nodeIndex": "dim_transformacao",
+          "nodeLineageTag": "1bd6f503-bc25-5838-8f13-6ada24807b90",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 693.46821333903154,
+            "y": 303.6741747983981
+          },
+          "nodeIndex": "fato_luta",
+          "nodeLineageTag": "db77cfbd-3e22-5f89-b867-b9ff209dd5fe",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 980.421330868834,
+            "y": 9.2800867126029516
+          },
+          "nodeIndex": "fato_poder",
+          "nodeLineageTag": "80fe59f0-71a3-50f4-bf3a-ff8a7ca92659",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1449.3303161406061,
+            "y": 204.45634912000924
+          },
+          "nodeIndex": "Lutador A",
+          "nodeLineageTag": "3bc8acc3-56c0-5f7a-9910-9bd655658234",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1733.3303161406061,
+            "y": 218.45634912000924
+          },
+          "nodeIndex": "Lutador B",
+          "nodeLineageTag": "36b9f35d-22fb-5aa2-9686-f33b864da66c",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 89.19259052056951,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

@@ -1,0 +1,149 @@
+table 'Lutador A'
+	lineageTag: 3bc8acc3-56c0-5f7a-9910-9bd655658234
+
+	/// Poder do lutador escolhido no lado A.
+	measure 'Poder A' = MAX ( 'Lutador A'[Poder] )
+		formatString: #,0
+		displayFolder: Simulador
+		lineageTag: 73069c21-05b2-5aec-bcd0-0aa6aaa0d3b5
+
+	/// Poder do lutador escolhido no lado B.
+	measure 'Poder B' = MAX ( 'Lutador B'[Poder] )
+		formatString: #,0
+		displayFolder: Simulador
+		lineageTag: a7460a1a-04ed-52e6-b739-58f6a19d45c1
+
+	/// Modelo Elo simplificado: chance = A² / (A² + B²). Poder 2x maior dá 80%.
+	measure 'Chance de Vitória A' =
+			VAR la = MAX ( 'Lutador A'[Log] )
+			VAR lb = MAX ( 'Lutador B'[Log] )
+			RETURN
+			    IF (
+			        ISBLANK ( la ) || ISBLANK ( lb ),
+			        BLANK (),
+			        1 / ( 1 + POWER ( 10, -2 * ( la - lb ) ) )
+			    )
+		formatString: 0%
+		displayFolder: Simulador
+		lineageTag: 927fee67-313c-532d-90fc-b47a6a377d8d
+
+	/// Complemento da chance de A.
+	measure 'Chance de Vitória B' = IF ( ISBLANK ( [Chance de Vitória A] ), BLANK (), 1 - [Chance de Vitória A] )
+		formatString: 0%
+		displayFolder: Simulador
+		lineageTag: 1cd20487-9214-5838-89db-fb88dc54ed07
+
+	/// Frase do resultado do simulador.
+	measure Veredito =
+			VAR a = SELECTEDVALUE ( 'Lutador A'[Personagem] )
+			VAR b = SELECTEDVALUE ( 'Lutador B'[Personagem] )
+			VAR p = [Chance de Vitória A]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( p ), "Escolha os dois lutadores",
+			        p >= 0.95, a & " vence com folga",
+			        p > 0.55, a & " é favorito",
+			        p >= 0.45, "Luta equilibrada",
+			        p > 0.05, b & " é favorito",
+			        b & " vence com folga"
+			    )
+		displayFolder: Simulador
+		lineageTag: bcb1b5a5-c9f2-50ca-a23c-52c0b4c46334
+
+	column Opção
+		dataType: string
+		lineageTag: 882e1fa2-00f9-558a-8749-6e8a0612f747
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Opção]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Personagem
+		dataType: string
+		lineageTag: aee8a569-5817-5424-bafd-1a2e20899453
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Personagem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Forma
+		dataType: string
+		lineageTag: e6f772ad-125b-513c-8652-cbb59996642f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Forma]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Saga
+		dataType: string
+		lineageTag: eef98446-6871-542b-afbe-3fdea23a5715
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Saga]
+		sortByColumn: 'Ordem Saga'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordem Saga'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 27514cd0-705d-5a73-8daa-a21c05be491b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ordem Saga]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Imagem
+		dataType: string
+		lineageTag: 5909f884-e245-59d4-886d-5ba6582fecfc
+		dataCategory: ImageUrl
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Imagem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Poder
+		dataType: double
+		formatString: #,0
+		lineageTag: 749af366-95bd-5d6f-85b5-486170f72142
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Poder]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Log
+		dataType: double
+		isHidden
+		formatString: 0.00
+		lineageTag: ad2385fb-1ac9-5969-a7da-da519a738c53
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Log]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Lutador A' = calculated
+		mode: import
+		source =
+				SELECTCOLUMNS (
+				    fato_poder,
+				    "Opção", RELATED ( dim_personagem[nome] ) & " · " & RELATED ( dim_transformacao[forma] ) & " · " & RELATED ( dim_saga[nome] ),
+				    "Personagem", RELATED ( dim_personagem[nome] ),
+				    "Forma", RELATED ( dim_transformacao[forma] ),
+				    "Saga", RELATED ( dim_saga[nome] ),
+				    "Ordem Saga", RELATED ( dim_saga[ordem_cronologica] ),
+				    "Imagem", RELATED ( dim_personagem[url_imagem] ),
+				    "Poder", fato_poder[nivel_poder],
+				    "Log", fato_poder[nivel_poder_log10]
+				)
+
+	annotation PBI_Id = 661f5582749250d891f187338b149bfc
+

@@ -1,0 +1,44 @@
+relationship da031a71-eaea-52c5-b09c-a7ae44fd9087
+	fromColumn: fato_poder.sk_personagem
+	toColumn: dim_personagem.sk_personagem
+
+relationship 258aa489-e108-5e2d-ad84-f151b53d7b1b
+	fromColumn: fato_poder.sk_saga
+	toColumn: dim_saga.sk_saga
+
+relationship 06879b03-8f9e-5a63-bc69-8eab7aadc30b
+	fromColumn: fato_poder.sk_transformacao
+	toColumn: dim_transformacao.sk_transformacao
+
+relationship 990587eb-72dc-5d0b-875e-a193df07e6d8
+	fromColumn: dim_personagem.sk_planeta
+	toColumn: dim_planeta.sk_planeta
+
+relationship 75f366ab-0c5d-5481-9635-80a5fe89b0e7
+	isActive: false
+	fromColumn: dim_transformacao.sk_personagem
+	toColumn: dim_personagem.sk_personagem
+
+relationship f7c65c01-0e50-5ac2-9528-41dda08a7ce4
+	fromColumn: fato_luta.sk_saga
+	toColumn: dim_saga.sk_saga
+
+relationship 5dd41dbb-635c-5a2a-9b04-d90623d0afab
+	fromColumn: fato_luta.sk_vencedor
+	toColumn: dim_personagem.sk_personagem
+
+relationship b30d8111-4e2a-5c72-84c8-01aa359437a9
+	isActive: false
+	fromColumn: fato_luta.sk_perdedor
+	toColumn: dim_personagem.sk_personagem
+
+relationship 866f913d-e684-50f6-8c5a-38a09e19cdae
+	isActive: false
+	fromColumn: fato_luta.sk_transformacao_vencedor
+	toColumn: dim_transformacao.sk_transformacao
+
+relationship 1a2f6c45-0277-514d-b552-f22be2422d8c
+	isActive: false
+	fromColumn: fato_luta.sk_transformacao_perdedor
+	toColumn: dim_transformacao.sk_transformacao
+

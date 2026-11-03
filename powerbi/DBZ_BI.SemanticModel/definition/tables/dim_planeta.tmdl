@@ -1,0 +1,59 @@
+table dim_planeta
+	lineageTag: 5b33cd0d-8f5b-59e5-b3ed-dfa54c71dc1d
+
+	column sk_planeta
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 81f236ce-c09b-5fa1-9737-3d9859ff59bb
+		summarizeBy: none
+		sourceColumn: sk_planeta
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_api
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a3fb1031-47cc-56a0-a5c5-827337201523
+		summarizeBy: none
+		sourceColumn: id_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 5976703d-9f75-5d4f-8de8-4abc2fd9dcb1
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column destruido
+		dataType: boolean
+		lineageTag: dbd45ea4-22f8-53cd-93a1-5f77ac737deb
+		summarizeBy: none
+		sourceColumn: destruido
+
+		annotation SummarizationSetBy = Automatic
+
+	column url_imagem
+		dataType: string
+		lineageTag: 3379ec86-8886-533f-aca7-32922afcbb5c
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: url_imagem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_planeta = m
+		mode: import
+		source =
+				let
+				    Fonte = Sql.Database(Servidor, Banco),
+				    Dados = Fonte{[Schema="dw",Item="dim_planeta"]}[Data]
+				in
+				    Dados
+
+	annotation PBI_ResultType = Table
+
